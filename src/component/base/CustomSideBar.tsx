@@ -4,6 +4,7 @@ import { HiHome } from 'react-icons/hi';
 import { CustomSideBarItem } from './CustomSideBarItem';
 import { useTranslation } from 'react-i18next';
 import { FaChartPie, FaChartLine } from 'react-icons/fa';
+import { GiReceiveMoney, GiPayMoney } from 'react-icons/gi';
 
 const routes = [
     {
@@ -37,7 +38,21 @@ export const CustomSideBar = (props: SidebarProps) => {
                         path='/'
                         active={route?.path === '/'}
                         icon={HiHome as any}
-                        label={t('sidebar.home')}
+                        label={t('sidebar.dashboard')}
+                    />
+                    <CustomSideBarItem
+                        collapsed={collapsed}
+                        path='/jackpot'
+                        active={route?.path === '/jackpot'}
+                        icon={GiReceiveMoney as any}
+                        label={t('sidebar.cagnotte')}
+                    />
+                    <CustomSideBarItem
+                        collapsed={collapsed}
+                        path='/spent'
+                        active={route?.path === '/spent'}
+                        icon={GiPayMoney as any}
+                        label={t('sidebar.spent')}
                     />
                     <CustomSideBarItem
                         collapsed={collapsed}

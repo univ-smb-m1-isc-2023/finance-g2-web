@@ -1,5 +1,5 @@
 import { Avatar, Dropdown } from 'flowbite-react';
-import User from '../object/User';
+import User from '../../object/User';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 

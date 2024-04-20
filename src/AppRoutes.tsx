@@ -1,8 +1,10 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { HomePage } from './pages/HomePage';
 import LinePage from './pages/LinePage';
 import { PiePage } from './pages/PiePage';
 import { LoginPage } from './pages/LoginPage';
+import { CagnottePage } from './pages/CagnottePage';
+import { DepensePage } from './pages/DepensePage';
+import { DashboardPage } from './pages/DashboardPage';
 
 export const AppRoutes = () => {
     return (
@@ -10,7 +12,15 @@ export const AppRoutes = () => {
             <Routes>
                 <Route
                     path='/'
-                    Component={HomePage}
+                    Component={DashboardPage}
+                />
+                <Route
+                    path='/jackpot'
+                    Component={CagnottePage}
+                />
+                <Route
+                    path='/spent'
+                    Component={DepensePage}
                 />
                 <Route
                     path='/login'

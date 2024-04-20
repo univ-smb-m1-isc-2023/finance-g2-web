@@ -1,4 +1,3 @@
-
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -10,17 +9,9 @@ import {
     Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { BasePage } from '../component/BasePage';
+import { BasePage } from '../component/base/BasePage';
 
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend
-);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 export const options = {
     responsive: true,
@@ -35,7 +26,20 @@ export const options = {
     },
 };
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const labels = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+];
 
 export const data = {
     labels,
@@ -55,12 +59,14 @@ export const data = {
     ],
 };
 export const LinePage = () => {
-
     return (
         <BasePage>
-            <Line options={options} data={data} />
+            <Line
+                options={options}
+                data={data}
+            />
         </BasePage>
-    )
-}
+    );
+};
 
-export default LinePage
+export default LinePage;

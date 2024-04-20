@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { CustomNavBar } from './CustomNavBar';
 import { CustomFooter } from './CustomFooter';
 import { CustomSideBar } from './CustomSideBar';
-import useWindowDimensions from '../utils/useWindowsDimensions';
+import useWindowDimensions from '../../utils/useWindowsDimensions';
 
 export const BasePage = (props: SidebarProps) => {
     const [collapsed, setCollapsed] = useState(false);

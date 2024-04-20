@@ -5,9 +5,11 @@
         "logout": "Déconnexion"
     },
     "sidebar": {
-        "home": "Accueil",
+        "dashboard": "Tableau de bord",
         "line": "Ligne",
-        "pie": "Camembert"
+        "pie": "Camembert",
+        "cagnotte": "Cagnottes",
+        "spent": "Dépenses"
     },
     "footer": {
         "app_name": "SmartCash",
@@ -24,5 +26,41 @@
         "login": "Connexion",
         "register": "S'inscrire",
         "no_account": "Vous n'avez pas de compte ?"
+    },
+    "cagnotte": {
+        "title": "Liste des cagnottes",
+        "description": "Liste des cagnottes enregistrés",
+        "search": "Rechercher",
+        "add_cagnotte": "Ajouter une cagnotte",
+        "actions": "Actions",
+        "remove": "Supprimer",
+        "edit": "Modifier",
+        "no_cagnotte": "Aucune cagnotte trouvée",
+        "add": "Ajouter",
+        "cancel": "Annuler",
+        "edit_cagnotte": "Modifier une cagnotte",
+        "see": "Voir",
+        "delete": "Supprimer",
+        "confirm_delete": "Êtes-vous sûr de vouloir supprimer cette cagnotte ? Cette action est irréversible.",
+        "delete_title": "Supprimer une cagnotte"
+    },
+    "depense": {
+        "title": "Liste des dépenses",
+        "description": "Liste des dépenses enregistrés",
+        "search": "Rechercher",
+        "add_depense": "Ajouter une dépense",
+        "actions": "Actions",
+        "remove": "Supprimer",
+        "edit": "Modifier",
+        "no_depense": "Aucune dépense trouvée",
+        "add": "Ajouter",
+        "cancel": "Annuler",
+        "edit_depense": "Modifier une dépense",
+        "see": "Voir",
+        "delete": "Supprimer",
+        "confirm_delete": "Êtes-vous sûr de vouloir supprimer cette dépense ? Cette action est irréversible.",
+        "delete_title": "Supprimer une dépense",
+        "import_csv": "Importer un fichier CSV",
+        "import": "Importer"
     }
 }

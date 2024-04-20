@@ -2,6 +2,7 @@ import { Button, Spinner, TextInput } from 'flowbite-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { post } from '../utils/http';
 
 export const LoginPage = () => {
     const { t } = useTranslation();
@@ -15,9 +16,16 @@ export const LoginPage = () => {
     const login = async () => {
         setLoading(true);
         setMessage('');
-        localStorage.setItem('email', email);
+        const result = await post('/auth/login', { email: email, password: password });
         setLoading(false);
-        navigate('/');
+        console.log(result);
+        /*
+        if (result.status === 'success') {
+            localStorage.setItem('accessToken', result.data.accessToken);
+            navigate('/');
+        } else {
+            setMessage(t(`error.login`));
+        }*/
     };
 
     return (

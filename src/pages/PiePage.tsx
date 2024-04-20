@@ -1,6 +1,6 @@
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
-import { BasePage } from '../component/BasePage';
+import { BasePage } from '../component/base/BasePage';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
