@@ -5,6 +5,7 @@ import { LoginPage } from './pages/LoginPage';
 import { CagnottePage } from './pages/CagnottePage';
 import { DepensePage } from './pages/DepensePage';
 import { DashboardPage } from './pages/DashboardPage';
+import { RegisterPage } from './pages/RegisterPage';
 
 export const AppRoutes = () => {
     return (
@@ -25,6 +26,10 @@ export const AppRoutes = () => {
                 <Route
                     path='/login'
                     Component={LoginPage}
+                />
+                <Route
+                    path='/register'
+                    Component={RegisterPage}
                 />
                 <Route
                     path='/line'

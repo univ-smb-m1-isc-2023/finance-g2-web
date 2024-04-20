@@ -4,18 +4,19 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { post } from '../utils/http';
 
-export const LoginPage = () => {
+export const RegisterPage = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
+    const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const login = async () => {
+    const register = async () => {
         setLoading(true);
         setMessage('');
-        const result = await post('/auth/login', { email: email, password: password });
+        const result = await post('/auth/signup', { fullName: fullName, email: email, password: password });
         setLoading(false);
         console.log(result);
         /*
@@ -38,15 +39,32 @@ export const LoginPage = () => {
                 <div className='w-full bg-white rounded-lg shadow  md:mt-0 sm:max-w-md xl:p-0 '>
                     <div className='p-6 space-y-4 md:space-y-6 sm:p-8'>
                         <h1 className='text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl '>
-                            {t('login.title')}
+                            {t('register.title')}
                         </h1>
                         <form className='space-y-4 md:space-y-6'>
+                            <div>
+                                <label
+                                    htmlFor='fullName'
+                                    className='block mb-2 text-sm font-medium text-gray-900 '
+                                >
+                                    {t('register.fullName')}
+                                </label>
+                                <TextInput
+                                    type='fullName'
+                                    name='fullName'
+                                    id='fullName'
+                                    value={fullName}
+                                    className='text-black'
+                                    onChange={(e) => setFullName(e.target.value)}
+                                    placeholder='Jean Dupont'
+                                />
+                            </div>
                             <div>
                                 <label
                                     htmlFor='email'
                                     className='block mb-2 text-sm font-medium text-gray-900 '
                                 >
-                                    {t('login.email')}
+                                    {t('register.email')}
                                 </label>
                                 <TextInput
                                     type='email'
@@ -63,7 +81,7 @@ export const LoginPage = () => {
                                     htmlFor='password'
                                     className='block mb-2 text-sm font-medium text-gray-900 '
                                 >
-                                    {t('login.password')}
+                                    {t('register.password')}
                                 </label>
                                 <TextInput
                                     type='password'
@@ -86,19 +104,19 @@ export const LoginPage = () => {
                                 </div>
                             )}
                             <Button
-                                onClick={login}
+                                onClick={register}
                                 className='w-full bg-secondary '
                                 disabled={loading}
                             >
-                                {t('login.login')}
+                                {t('register.register')}
                             </Button>
                             <p className='text-sm font-light text-gray-500 '>
-                                {t('login.no_account')}{' '}
+                                {t('register.have_account')}{' '}
                                 <a
-                                    onClick={() => navigate('/register')}
+                                    onClick={() => navigate('/login')}
                                     className='font-medium text-primary-600 hover:underline '
                                 >
-                                    {t('login.register')}
+                                    {t('register.login')}
                                 </a>
                             </p>
                         </form>

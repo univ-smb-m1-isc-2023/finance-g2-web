@@ -27,6 +27,16 @@
         "register": "S'inscrire",
         "no_account": "Vous n'avez pas de compte ?"
     },
+    "register": {
+        "title": "Inscription",
+        "fullName": "Prénom et nom",
+        "email": "Adresse e-mail",
+        "password": "Mot de passe",
+        "submit": "S'inscrire",
+        "login": "Connexion",
+        "register": "S'inscrire",
+        "have_account": "Vous avez déjà un compte ?"
+    },
     "cagnotte": {
         "title": "Liste des cagnottes",
         "description": "Liste des cagnottes enregistrés",
