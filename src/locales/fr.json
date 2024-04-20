@@ -1,0 +1,28 @@
+{
+    "navbar": {
+        "app_name": "SmartCash",
+        "logo": "Logo SmartCash",
+        "logout": "Déconnexion"
+    },
+    "sidebar": {
+        "home": "Accueil",
+        "line": "Ligne",
+        "pie": "Camembert"
+    },
+    "footer": {
+        "app_name": "SmartCash",
+        "logo": "Logo SmartCash",
+        "copyright": "SmartCash™"
+    },
+    "login": {
+        "title": "Connexion",
+        "email": "Adresse e-mail",
+        "password": "Mot de passe",
+        "submit": "Se connecter",
+        "remember": "Se souvenir de moi",
+        "forgot": "Mot de passe oublié ?",
+        "login": "Connexion",
+        "register": "S'inscrire",
+        "no_account": "Vous n'avez pas de compte ?"
+    }
+}

@@ -27,12 +27,12 @@ export const BasePage = (props: SidebarProps) => {
             <div className='flex flex-row h-full'>
                 <CustomSideBar collapsed={collapsed} />
                 <div
-                    className='flex-1 h-full flex flex-col justify-between pt-16'
+                    className='flex-1 h-full flex flex-col justify-between pt-16 min-h-screen'
                     style={{
                         paddingLeft: collapsed ? '4rem' : '16rem',
                     }}
                 >
-                    <div className='flex flex-col flex-1'>{props.children}</div>
+                    <div className='flex flex-col flex-1 p-8'>{props.children}</div>
                     <CustomFooter />
                 </div>
             </div>

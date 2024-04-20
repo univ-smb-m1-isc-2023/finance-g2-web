@@ -1,32 +1,20 @@
 import { Sidebar, SidebarProps } from 'flowbite-react';
 import { useLocation, matchRoutes } from 'react-router-dom';
-import { HiHome, HiUser } from 'react-icons/hi';
-import User from '../object/User';
+import { HiHome } from 'react-icons/hi';
 import { CustomSideBarItem } from './CustomSideBarItem';
+import { useTranslation } from 'react-i18next';
+import { FaChartPie, FaChartLine } from 'react-icons/fa';
 
 const routes = [
     {
         path: '/',
     },
-    {
-        path: '/fournisseur',
-    },
-    {
-        path: '/client',
-    },
-    {
-        path: '/account',
-    },
-    {
-        path: '/param',
-    },
-    {
-        path: '/user',
-    },
 ];
 
 export const CustomSideBar = (props: SidebarProps) => {
     const { collapsed = false } = props;
+
+    const { t } = useTranslation();
 
     const location = useLocation();
 
@@ -49,21 +37,21 @@ export const CustomSideBar = (props: SidebarProps) => {
                         path='/'
                         active={route?.path === '/'}
                         icon={HiHome as any}
-                        label={"Home"}
+                        label={t('sidebar.home')}
                     />
                     <CustomSideBarItem
                         collapsed={collapsed}
                         path='/line'
                         active={route?.path === '/line'}
-                        icon={HiUser as any}
-                        label={"Line"}
+                        icon={FaChartLine as any}
+                        label={t('sidebar.line')}
                     />
                     <CustomSideBarItem
                         collapsed={collapsed}
                         path='/pie'
                         active={route?.path === '/pie'}
-                        icon={HiUser as any}
-                        label={"Pie"}
+                        icon={FaChartPie as any}
+                        label={t('sidebar.pie')}
                     />
                 </Sidebar.ItemGroup>
             </Sidebar.Items>

@@ -1,7 +1,9 @@
 import { Footer, FooterProps } from 'flowbite-react';
+import { useTranslation } from 'react-i18next';
 import { BsFacebook, BsInstagram, BsTwitter } from 'react-icons/bs';
 
 export const CustomFooter = (props: FooterProps) => {
+    const { t } = useTranslation();
     return (
         <Footer
             container={true}
@@ -12,19 +14,18 @@ export const CustomFooter = (props: FooterProps) => {
                     <div>
                         <Footer.Brand
                             href='/'
-                            src='/smartcash.png'
-                            alt='SmartCash Logo'
-                            name='SmartCash'
+                            src='/image/smartcash.png'
+                            alt={t('footer.logo')}
+                            name={t('footer.app_name')}
                         />
                     </div>
-                    <div className='grid grid-cols-2 gap-8 sm:mt-4 sm:grid-cols-3 sm:gap-6'>
-                    </div>
+                    <div className='grid grid-cols-2 gap-8 sm:mt-4 sm:grid-cols-3 sm:gap-6'></div>
                 </div>
                 <Footer.Divider />
                 <div className='w-full sm:flex sm:items-center sm:justify-between'>
                     <Footer.Copyright
                         href='#'
-                        by='SmartCash™'
+                        by={t('footer.copyright')}
                         year={new Date().getFullYear()}
                     />
                     <div className='mt-4 flex space-x-6 sm:mt-0 sm:justify-center'>

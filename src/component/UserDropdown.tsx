@@ -1,10 +1,11 @@
 import { Avatar, Dropdown } from 'flowbite-react';
 import User from '../object/User';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export default function UserDropdown() {
     const navigate = useNavigate();
-
+    const { t } = useTranslation();
 
     return (
         <Dropdown
@@ -20,29 +21,15 @@ export default function UserDropdown() {
             }
         >
             <Dropdown.Header>
-                <span className='block text-sm'>{User.getInstance().getDisplayName()}</span>
-                <span className='block truncate text-sm font-medium'>EMAIL</span>
+                <span className='block truncate text-sm font-medium'>{localStorage.getItem('email')}</span>
             </Dropdown.Header>
             <Dropdown.Item
                 onClick={() => {
-                    navigate('/account');
+                    localStorage.clear();
+                    navigate('/login');
                 }}
             >
-                Mes Informations
-            </Dropdown.Item>
-            <Dropdown.Item
-                onClick={() => {
-                    navigate('/param');
-                }}
-            >
-                Paramètres
-            </Dropdown.Item>
-            <Dropdown.Divider />
-            <Dropdown.Item
-                onClick={() => {
-                }}
-            >
-                Déconnexion
+                {t('navbar.logout')}
             </Dropdown.Item>
         </Dropdown>
     );
