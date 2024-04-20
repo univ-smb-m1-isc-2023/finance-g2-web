@@ -72,5 +72,9 @@
         "delete_title": "Supprimer une dépense",
         "import_csv": "Importer un fichier CSV",
         "import": "Importer"
+    },
+    "error": {
+        "login": "Erreur lors de la connexion",
+        "register": "Erreur lors de l'inscription"
     }
 }

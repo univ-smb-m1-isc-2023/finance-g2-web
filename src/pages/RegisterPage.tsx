@@ -24,7 +24,7 @@ export const RegisterPage = () => {
             localStorage.setItem('accessToken', result.data.accessToken);
             navigate('/');
         } else {
-            setMessage(t(`error.login`));
+            setMessage(t(`error.register`));
         }*/
     };
 
