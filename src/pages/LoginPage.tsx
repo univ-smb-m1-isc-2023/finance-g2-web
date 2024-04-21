@@ -2,7 +2,10 @@ import { Button, Spinner, TextInput } from 'flowbite-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { post } from '../utils/http';
+import { SERVER_URL } from '../utils/Constant';
+import { useUser } from '../context/UserContext';
+import { get } from '../utils/http';
+import User from '../object/User';
 
 export const LoginPage = () => {
     const { t } = useTranslation();
@@ -12,19 +15,31 @@ export const LoginPage = () => {
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
 
+    const user = useUser();
+
     const login = async () => {
         setLoading(true);
         setMessage('');
-        const result = await post('/auth/login', { email: email, password: password });
+        const response = await fetch(SERVER_URL + '/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+            body: JSON.stringify({ email: email, password: password }),
+        });
         setLoading(false);
-        console.log(result);
-        /*
-        if (result.status === 'success') {
-            localStorage.setItem('accessToken', result.data.accessToken);
-            navigate('/');
-        } else {
+
+        if (!response.ok) {
             setMessage(t(`error.login`));
-        }*/
+            return;
+        } else {
+            const result = await response.json();
+            localStorage.setItem('accessToken', result.token);
+            const userInfo = await get('/users/me', {});
+            user.setUser(new User(userInfo.id, userInfo.fullName, userInfo.email, userInfo.email));
+            navigate('/');
+        }
     };
 
     return (

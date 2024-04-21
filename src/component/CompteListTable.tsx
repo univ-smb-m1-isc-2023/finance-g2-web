@@ -1,31 +1,25 @@
-import { useEffect, useState } from 'react';
 import { Button, Card, Spinner, Table } from 'flowbite-react';
 import { EyeIcon, PlusCircleIcon, TrashIcon, WrenchIcon } from '@heroicons/react/24/solid';
 import { useTranslation } from 'react-i18next';
-import Cagnotte from '../object/Cagnotte';
+import Compte from '../object/Compte';
 
-interface CagnotteListTableProps {
+interface CompteListTableProps {
     onAdd: () => void;
-    onEdit: (cagnotte: Cagnotte) => void;
-    onDelete: (cagnotte: Cagnotte) => void;
+    onEdit: (compte: Compte) => void;
+    onDelete: (compte: Compte) => void;
     search: string;
+    compteList: Compte[];
+    loading: boolean;
+    error: string;
 }
 
-export const CagnotteListTable = (props: CagnotteListTableProps) => {
+export const CompteListTable = (props: CompteListTableProps) => {
     const { t } = useTranslation();
+    const { loading, compteList, error } = props;
 
-    const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string>('');
-
-    const [cagnotteList, setCagnotteList] = useState<Cagnotte[]>([]);
-
-    useEffect(() => {
-        (async () => {
-            //get cagnotte list
-        })();
-    }, []);
-
-    const finalList = cagnotteList;
+    const finalList = compteList
+        .sort((a, b) => a.balance - b.balance)
+        .sort((a, b) => a.accountName.localeCompare(b.accountName));
 
     return (
         <section className='gap-4 flex flex-col'>
@@ -39,7 +33,7 @@ export const CagnotteListTable = (props: CagnotteListTableProps) => {
             {finalList.length === 0 && !loading ? (
                 <Card className=''>
                     <div className='flex items-center flex-col justify-center gap-8 p-8'>
-                        <h1 className='text-xl font-bold'>{t('cagnotte.no_cagnotte')}</h1>
+                        <h1 className='text-xl font-bold'>{t('compte.no_compte')}</h1>
                         <Button
                             className='bg-primary'
                             onClick={() => {
@@ -48,7 +42,7 @@ export const CagnotteListTable = (props: CagnotteListTableProps) => {
                         >
                             <span className='flex flex-row gap-2 items-center justify-center'>
                                 <PlusCircleIcon className='h-6 w-6' />
-                                {t('cagnotte.add_cagnotte')}
+                                {t('compte.add_compte')}
                             </span>
                         </Button>
                     </div>
@@ -59,18 +53,24 @@ export const CagnotteListTable = (props: CagnotteListTableProps) => {
                     className='shadow-lg'
                 >
                     <Table.Head>
-                        <Table.HeadCell>{t('cagnotte.')}</Table.HeadCell>
-                        <Table.HeadCell>{t('cagnotte.actions')}</Table.HeadCell>
+                        <Table.HeadCell>{t('compte.name')}</Table.HeadCell>
+                        <Table.HeadCell>{t('compte.balance')}</Table.HeadCell>
+                        <Table.HeadCell>{t('compte.actions')}</Table.HeadCell>
                     </Table.Head>
 
                     <Table.Body className='divide-y'>
-                        {finalList.map((cagnotte, index) => {
+                        {finalList.map((compte, index) => {
                             return (
                                 <Table.Row
                                     className='bg-white dark:border-gray-700 dark:bg-gray-800'
                                     key={index}
                                 >
-                                    <Table.Cell></Table.Cell>
+                                    <Table.Cell>
+                                        <span>{compte.accountName}</span>
+                                    </Table.Cell>
+                                    <Table.Cell>
+                                        <span>{compte.balance}€</span>
+                                    </Table.Cell>
                                     <Table.Cell>
                                         <div className='flex gap-2 items-end justify-end flex-wrap'>
                                             <div className='flex flex-col gap-2'>
@@ -81,19 +81,19 @@ export const CagnotteListTable = (props: CagnotteListTableProps) => {
                                                 >
                                                     <span className='flex items-center justify-center gap-2 flex-row'>
                                                         <EyeIcon className='h-6 w-6' />
-                                                        {t('cagnotte.see')}
+                                                        {t('compte.see')}
                                                     </span>
                                                 </Button>
                                                 <Button
                                                     className='w-full'
                                                     color='warning'
                                                     onClick={() => {
-                                                        props.onEdit(cagnotte);
+                                                        props.onEdit(compte);
                                                     }}
                                                 >
                                                     <span className='flex items-center justify-center gap-2 flex-row'>
                                                         <WrenchIcon className='h-6 w-6' />
-                                                        {t('cagnotte.edit')}
+                                                        {t('compte.edit')}
                                                     </span>
                                                 </Button>
 
@@ -101,12 +101,12 @@ export const CagnotteListTable = (props: CagnotteListTableProps) => {
                                                     className='w-full'
                                                     color='failure'
                                                     onClick={() => {
-                                                        props.onDelete(cagnotte);
+                                                        props.onDelete(compte);
                                                     }}
                                                 >
                                                     <span className='flex items-center justify-center gap-2 flex-row'>
                                                         <TrashIcon className='h-6 w-6' />
-                                                        {t('cagnotte.remove')}
+                                                        {t('compte.remove')}
                                                     </span>
                                                 </Button>
                                             </div>

@@ -4,8 +4,24 @@ import { CustomNavBar } from './CustomNavBar';
 import { CustomFooter } from './CustomFooter';
 import { CustomSideBar } from './CustomSideBar';
 import useWindowDimensions from '../../utils/useWindowsDimensions';
+import User from '../../object/User';
+import { get } from '../../utils/http';
+import { useUser } from '../../context/UserContext';
 
 export const BasePage = (props: SidebarProps) => {
+    const user = useUser();
+    useEffect(() => {
+        if (window.location.pathname === '/login' || window.location.pathname === '/register') return;
+        (async () => {
+            const userInfo = await get('/users/me', {});
+            if (userInfo.error) {
+                localStorage.removeItem('accessToken');
+                window.location.href = '/login';
+                return;
+            }
+            user.setUser(new User(userInfo.id, userInfo.fullName, userInfo.email, userInfo.email));
+        })();
+    }, []);
     const [collapsed, setCollapsed] = useState(false);
 
     const { height, width } = useWindowDimensions();

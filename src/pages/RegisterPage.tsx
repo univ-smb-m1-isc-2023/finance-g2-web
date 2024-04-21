@@ -2,7 +2,7 @@ import { Button, Spinner, TextInput } from 'flowbite-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { post } from '../utils/http';
+import { SERVER_URL } from '../utils/Constant';
 
 export const RegisterPage = () => {
     const { t } = useTranslation();
@@ -16,16 +16,26 @@ export const RegisterPage = () => {
     const register = async () => {
         setLoading(true);
         setMessage('');
-        const result = await post('/auth/signup', { fullName: fullName, email: email, password: password });
+        setLoading(true);
+        setMessage('');
+        const response = await fetch(SERVER_URL + '/auth/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+            body: JSON.stringify({ fullName: fullName, email: email, password: password }),
+        });
         setLoading(false);
-        console.log(result);
-        /*
-        if (result.status === 'success') {
-            localStorage.setItem('accessToken', result.data.accessToken);
-            navigate('/');
-        } else {
+
+        if (!response.ok) {
             setMessage(t(`error.register`));
-        }*/
+            return;
+        } else {
+            const result = await response.json();
+            localStorage.setItem('accessToken', result.token);
+            navigate('/');
+        }
     };
 
     return (

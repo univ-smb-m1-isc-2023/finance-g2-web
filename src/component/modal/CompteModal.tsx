@@ -1,50 +1,68 @@
 import { Button, Modal, Spinner } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Cagnotte from '../../object/Cagnotte';
+import Compte from '../../object/Compte';
 import { Input } from '../base/Input';
+import { post } from '../../utils/http';
+import { useUser } from '../../context/UserContext';
 
-interface ICagnotteModalProps {
+interface ICompteModalProps {
     open: boolean;
     onClose: () => void;
-    cagnotte: Cagnotte | null;
+    compte: Compte | null;
 }
 
-export const CagnotteModal = (props: ICagnotteModalProps) => {
+export const CompteModal = (props: ICompteModalProps) => {
+    const user = useUser();
+
     const { t } = useTranslation();
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
-    const { open, onClose, cagnotte } = props;
+    const [accountName, setAccountName] = useState<string>('');
+    const { open, onClose, compte } = props;
 
-    const addCagnotte = async () => {
-        //add cagnotte
+    const addCompte = async () => {
+        setLoading(true);
+        const addCompteInfo = await post('/account/create', {
+            accountName: accountName,
+            balance: 0,
+            user: user.id,
+        });
+        setLoading(false);
+        if (addCompteInfo.error) {
+            setError(addCompteInfo.error);
+        } else {
+            onClose();
+        }
     };
 
-    const editCagnotte = async () => {
-        //edit cagnotte
+    const editCompte = async () => {
+        //edit compte
     };
 
     useEffect(() => {
-        if (cagnotte) {
-            //set cagnotte data
+        if (compte) {
+            //set compte data
         }
-    }, [cagnotte]);
+    }, [compte]);
 
     return (
         <Modal
             show={open}
             onClose={onClose}
         >
-            <Modal.Header>{cagnotte ? t('cagnotte.edit_cagnotte') : t('cagnotte.add_cagnotte')}</Modal.Header>
+            <Modal.Header>{compte ? t('compte.edit_compte') : t('compte.add_compte')}</Modal.Header>
             <Modal.Body>
                 <div className='flex flex-col flex-1 gap-3'>
                     <div className='flex w-full flex-row gap-5'>
                         <div className='flex-1'>
                             <Input
-                                label={t('')}
-                                placeholder={t('')}
-                                value={''}
-                                onChange={(e) => {}}
+                                label={t('compte.name')}
+                                placeholder={t('compte.name')}
+                                value={accountName}
+                                onChange={(e) => {
+                                    setAccountName(e.target.value);
+                                }}
                             />
                         </div>
                     </div>
@@ -61,15 +79,15 @@ export const CagnotteModal = (props: ICagnotteModalProps) => {
                     color='gray'
                     onClick={() => onClose()}
                 >
-                    {t('cagnotte.cancel')}
+                    {t('compte.cancel')}
                 </Button>
                 <Button
                     onClick={() => {
-                        cagnotte ? editCagnotte() : addCagnotte();
+                        compte ? editCompte() : addCompte();
                     }}
                     className='bg-secondary text-white'
                 >
-                    {cagnotte ? t('cagnotte.edit') : t('cagnotte.add')}
+                    {compte ? t('compte.edit') : t('compte.add')}
                 </Button>
             </Modal.Footer>
         </Modal>

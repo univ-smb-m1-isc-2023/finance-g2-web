@@ -1,7 +1,6 @@
 import { Button, Modal, Spinner } from 'flowbite-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 
 interface IDeleteCagnotteModalProps {
     open: boolean;
@@ -14,7 +13,6 @@ export const DeleteCagnotteModal = (props: IDeleteCagnotteModalProps) => {
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
     const { open, onClose, cagnotte } = props;
-    const navigate = useNavigate();
 
     const submit = async () => {
         //delete cagnotte

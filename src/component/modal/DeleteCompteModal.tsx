@@ -2,20 +2,20 @@ import { Button, Modal, Spinner } from 'flowbite-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-interface IDeleteDepenseModalProps {
+interface IDeleteCompteModalProps {
     open: boolean;
     onClose: () => void;
-    depense: any;
+    compte: any;
 }
 
-export const DeleteDepenseModal = (props: IDeleteDepenseModalProps) => {
+export const DeleteCompteModal = (props: IDeleteCompteModalProps) => {
     const { t } = useTranslation();
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
-    const { open, onClose, depense } = props;
+    const { open, onClose, compte } = props;
 
     const submit = async () => {
-        //delete depense
+        //delete compte
     };
 
     return (
@@ -23,9 +23,9 @@ export const DeleteDepenseModal = (props: IDeleteDepenseModalProps) => {
             show={open}
             onClose={onClose}
         >
-            <Modal.Header>{t('depense.delete_title')}</Modal.Header>
+            <Modal.Header>{t('compte.delete_title')}</Modal.Header>
             <Modal.Body>
-                <p>{t('depense.confirm_delete')}</p>
+                <p>{t('compte.confirm_delete')}</p>
                 {error !== '' && <p className='mt-3 text-center text-red-700'>{error}</p>}
 
                 {loading && (
@@ -39,13 +39,13 @@ export const DeleteDepenseModal = (props: IDeleteDepenseModalProps) => {
                     color='gray'
                     onClick={() => onClose()}
                 >
-                    {t('depense.cancel')}
+                    {t('compte.cancel')}
                 </Button>
                 <Button
                     color='failure'
                     onClick={() => submit()}
                 >
-                    {t('depense.delete')}
+                    {t('compte.delete')}
                 </Button>
             </Modal.Footer>
         </Modal>

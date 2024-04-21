@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Button, Card, Spinner, Table } from 'flowbite-react';
 import { EyeIcon, PlusCircleIcon, TrashIcon, WrenchIcon } from '@heroicons/react/24/solid';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import Depense from '../object/Depense';
 
 interface DepenseListTableProps {
@@ -14,7 +13,6 @@ interface DepenseListTableProps {
 
 export const DepenseListTable = (props: DepenseListTableProps) => {
     const { t } = useTranslation();
-    const navigate = useNavigate();
 
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>('');

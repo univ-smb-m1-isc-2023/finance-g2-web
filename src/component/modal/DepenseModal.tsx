@@ -1,7 +1,6 @@
 import { Button, Modal, Spinner } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import Depense from '../../object/Depense';
 import { Input } from '../base/Input';
 
@@ -12,8 +11,6 @@ interface IDepenseModalProps {
 }
 
 export const DepenseModal = (props: IDepenseModalProps) => {
-    const navigate = useNavigate();
-
     const { t } = useTranslation();
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>('');

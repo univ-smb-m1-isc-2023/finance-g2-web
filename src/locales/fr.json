@@ -8,8 +8,9 @@
         "dashboard": "Tableau de bord",
         "line": "Ligne",
         "pie": "Camembert",
-        "cagnotte": "Cagnottes",
-        "spent": "Dépenses"
+        "jackpot": "Cagnottes",
+        "spent": "Dépenses",
+        "account": "Comptes"
     },
     "footer": {
         "app_name": "SmartCash",
@@ -39,7 +40,7 @@
     },
     "cagnotte": {
         "title": "Liste des cagnottes",
-        "description": "Liste des cagnottes enregistrés",
+        "description": "Liste des cagnottes enregistrées",
         "search": "Rechercher",
         "add_cagnotte": "Ajouter une cagnotte",
         "actions": "Actions",
@@ -54,9 +55,28 @@
         "confirm_delete": "Êtes-vous sûr de vouloir supprimer cette cagnotte ? Cette action est irréversible.",
         "delete_title": "Supprimer une cagnotte"
     },
+    "compte": {
+        "title": "Liste des comptes",
+        "description": "Liste des comptes enregistrés",
+        "search": "Rechercher",
+        "add_compte": "Ajouter un compte",
+        "actions": "Actions",
+        "remove": "Supprimer",
+        "edit": "Modifier",
+        "no_compte": "Aucun compte trouvée",
+        "add": "Ajouter",
+        "cancel": "Annuler",
+        "edit_compte": "Modifier un compte",
+        "see": "Voir",
+        "delete": "Supprimer",
+        "confirm_delete": "Êtes-vous sûr de vouloir supprimer ce compte ? Cette action est irréversible.",
+        "delete_title": "Supprimer un compte",
+        "name": "Nom du compte",
+        "balance": "Solde du compte"
+    },
     "depense": {
         "title": "Liste des dépenses",
-        "description": "Liste des dépenses enregistrés",
+        "description": "Liste des dépenses enregistrées",
         "search": "Rechercher",
         "add_depense": "Ajouter une dépense",
         "actions": "Actions",

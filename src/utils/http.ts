@@ -23,7 +23,6 @@ export async function get(action: string, params: { [key: string]: any } = {}) {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
             },
-            credentials: 'include',
         });
         if (!response.ok) {
             res = {
@@ -53,7 +52,6 @@ export async function post(action: string, params: { [key: string]: any } = {}) 
                 Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
             },
             body: JSON.stringify(params),
-            credentials: 'include',
         });
         if (!response.ok) {
             res = {
@@ -102,7 +100,6 @@ export async function postFile(
                 Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
             },
             body: formData,
-            credentials: 'include',
         });
         if (!response.ok) {
             res = {
@@ -130,7 +127,6 @@ export async function postRefresh() {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({}),
-        credentials: 'include',
     })
         .then((response) => {
             return response.json();
@@ -163,7 +159,6 @@ export async function getBlob(action: string, params: { [key: string]: any } = {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
-            credentials: 'include',
         });
         if (!response.ok) {
             res = {
