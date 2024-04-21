@@ -53,7 +53,9 @@
         "see": "Voir",
         "delete": "Supprimer",
         "confirm_delete": "Êtes-vous sûr de vouloir supprimer cette cagnotte ? Cette action est irréversible.",
-        "delete_title": "Supprimer une cagnotte"
+        "delete_title": "Supprimer une cagnotte",
+        "name": "Nom",
+        "desc": "Description"
     },
     "compte": {
         "title": "Liste des comptes",
@@ -72,7 +74,8 @@
         "confirm_delete": "Êtes-vous sûr de vouloir supprimer ce compte ? Cette action est irréversible.",
         "delete_title": "Supprimer un compte",
         "name": "Nom du compte",
-        "balance": "Solde du compte"
+        "balance": "Solde du compte",
+        "jackpot": "Cagnottes"
     },
     "depense": {
         "title": "Liste des dépenses",

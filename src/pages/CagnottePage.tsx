@@ -1,5 +1,5 @@
 import { Button, Card, TextInput } from 'flowbite-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PlusCircleIcon } from '@heroicons/react/24/solid';
 import { BasePage } from '../component/base/BasePage';
@@ -7,15 +7,35 @@ import Cagnotte from '../object/Cagnotte';
 import { CagnotteListTable } from '../component/CagnotteListTable';
 import { DeleteCagnotteModal } from '../component/modal/DeleteCagnotteModal';
 import { CagnotteModal } from '../component/modal/CagnotteModal';
+import { useParams } from 'react-router-dom';
+import { get } from '../utils/http';
 
 interface CagnottePageProps {}
 
 export const CagnottePage = (props: CagnottePageProps) => {
+    const { id } = useParams();
     const [search, setSearch] = useState<string>('');
     const [createCagnotte, setCreateCagnotte] = useState<boolean>(false);
     const [deleteCagnotte, setDeleteCagnotte] = useState<boolean>(false);
     const [editCagnotte, setEditCagnotte] = useState<boolean>(false);
     const [CagnotteForModal, setCagnotteForModal] = useState<Cagnotte | null>(null);
+    const [cagnotteList, setCagnotteList] = useState<Cagnotte[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string>('');
+
+    useEffect(() => {
+        setLoading(true);
+        setError('');
+        (async () => {
+            const cagnotteListInfo = await get('/tag/tags', { accountId: id });
+            setLoading(false);
+            if (cagnotteListInfo.error) {
+                setError(cagnotteListInfo.error);
+                return;
+            }
+            setCagnotteList(cagnotteListInfo);
+        })();
+    }, [, createCagnotte, deleteCagnotte, editCagnotte]);
 
     const onAdd = () => {
         setCreateCagnotte(true);
@@ -72,6 +92,9 @@ export const CagnottePage = (props: CagnottePageProps) => {
                         onEdit={onEdit}
                         onDelete={onDelete}
                         search={search}
+                        cagnotteList={cagnotteList}
+                        loading={loading}
+                        error={error}
                     />
                 </div>
             </div>

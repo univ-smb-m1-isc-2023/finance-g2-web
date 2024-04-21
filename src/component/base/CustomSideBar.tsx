@@ -49,13 +49,6 @@ export const CustomSideBar = (props: SidebarProps) => {
                     />
                     <CustomSideBarItem
                         collapsed={collapsed}
-                        path='/jackpot'
-                        active={route?.path === '/jackpot'}
-                        icon={GiReceiveMoney as any}
-                        label={t('sidebar.jackpot')}
-                    />
-                    <CustomSideBarItem
-                        collapsed={collapsed}
                         path='/spent'
                         active={route?.path === '/spent'}
                         icon={GiPayMoney as any}

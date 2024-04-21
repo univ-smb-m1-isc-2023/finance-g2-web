@@ -27,7 +27,6 @@ export const ComptePage = (props: ComptePageProps) => {
         (async () => {
             const compteListInfo = await get('/account/me');
             setLoading(false);
-            console.log(compteListInfo);
             if (compteListInfo.error) {
                 setError(compteListInfo.error);
                 return;

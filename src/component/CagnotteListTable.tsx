@@ -9,15 +9,15 @@ interface CagnotteListTableProps {
     onEdit: (cagnotte: Cagnotte) => void;
     onDelete: (cagnotte: Cagnotte) => void;
     search: string;
+    cagnotteList: Cagnotte[];
+    loading: boolean;
+    error: string;
 }
 
 export const CagnotteListTable = (props: CagnotteListTableProps) => {
     const { t } = useTranslation();
 
-    const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string>('');
-
-    const [cagnotteList, setCagnotteList] = useState<Cagnotte[]>([]);
+    const { loading, cagnotteList, error } = props;
 
     useEffect(() => {
         (async () => {
@@ -25,7 +25,7 @@ export const CagnotteListTable = (props: CagnotteListTableProps) => {
         })();
     }, []);
 
-    const finalList = cagnotteList;
+    const finalList = cagnotteList.sort((a, b) => a.name.localeCompare(b.name));
 
     return (
         <section className='gap-4 flex flex-col'>
@@ -59,7 +59,8 @@ export const CagnotteListTable = (props: CagnotteListTableProps) => {
                     className='shadow-lg'
                 >
                     <Table.Head>
-                        <Table.HeadCell>{t('cagnotte.')}</Table.HeadCell>
+                        <Table.HeadCell>{t('cagnotte.name')}</Table.HeadCell>
+                        <Table.HeadCell>{t('cagnotte.desc')}</Table.HeadCell>
                         <Table.HeadCell>{t('cagnotte.actions')}</Table.HeadCell>
                     </Table.Head>
 
@@ -70,7 +71,12 @@ export const CagnotteListTable = (props: CagnotteListTableProps) => {
                                     className='bg-white dark:border-gray-700 dark:bg-gray-800'
                                     key={index}
                                 >
-                                    <Table.Cell></Table.Cell>
+                                    <Table.Cell>
+                                        <span>{cagnotte.name}</span>
+                                    </Table.Cell>
+                                    <Table.Cell>
+                                        <span>{cagnotte.description}</span>
+                                    </Table.Cell>
                                     <Table.Cell>
                                         <div className='flex gap-2 items-end justify-end flex-wrap'>
                                             <div className='flex flex-col gap-2'>

@@ -22,7 +22,7 @@ export const AppRoutes = () => {
                         Component={ComptePage}
                     />
                     <Route
-                        path='/jackpot'
+                        path='/account/jackpot/:id'
                         Component={CagnottePage}
                     />
                     <Route

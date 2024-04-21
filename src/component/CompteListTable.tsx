@@ -2,6 +2,7 @@ import { Button, Card, Spinner, Table } from 'flowbite-react';
 import { EyeIcon, PlusCircleIcon, TrashIcon, WrenchIcon } from '@heroicons/react/24/solid';
 import { useTranslation } from 'react-i18next';
 import Compte from '../object/Compte';
+import { useNavigate } from 'react-router-dom';
 
 interface CompteListTableProps {
     onAdd: () => void;
@@ -16,6 +17,7 @@ interface CompteListTableProps {
 export const CompteListTable = (props: CompteListTableProps) => {
     const { t } = useTranslation();
     const { loading, compteList, error } = props;
+    const navigate = useNavigate();
 
     const finalList = compteList
         .sort((a, b) => a.balance - b.balance)
@@ -88,12 +90,12 @@ export const CompteListTable = (props: CompteListTableProps) => {
                                                     className='w-full'
                                                     color='warning'
                                                     onClick={() => {
-                                                        props.onEdit(compte);
+                                                        navigate(`/account/jackpot/${compte.id}`);
                                                     }}
                                                 >
                                                     <span className='flex items-center justify-center gap-2 flex-row'>
                                                         <WrenchIcon className='h-6 w-6' />
-                                                        {t('compte.edit')}
+                                                        {t('compte.jackpot')}
                                                     </span>
                                                 </Button>
 
