@@ -34,7 +34,7 @@ export const TransactionListTable = (props: TransactionListTableProps) => {
             {finalList.length === 0 && !loading ? (
                 <Card className=''>
                     <div className='flex items-center flex-col justify-center gap-8 p-8'>
-                        <h1 className='text-xl font-bold'>{t('transaction.no_transaction')}</h1>
+                        <h1 className='text-darkGray text-xl font-bold'>{t('transaction.no_transaction')}</h1>
                         <Button
                             className='bg-primary'
                             onClick={() => {

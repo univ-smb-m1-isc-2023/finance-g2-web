@@ -39,23 +39,23 @@ export const RegisterPage = () => {
     };
 
     return (
-        <section className=''>
+        <section className='bg-lightGray'>
             <div className='flex gap-4 flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0'>
                 <img
                     className='h-24 w-24 object-contain'
                     src='/image/smartcash.png'
                     alt='logo'
                 />
-                <div className='w-full bg-white rounded-lg shadow  md:mt-0 sm:max-w-md xl:p-0 '>
+                <div className='w-full bg-white dark:border-gray-700 dark:bg-gray-800 rounded-lg shadow  md:mt-0 sm:max-w-md xl:p-0 '>
                     <div className='p-6 space-y-4 md:space-y-6 sm:p-8'>
-                        <h1 className='text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl '>
+                        <h1 className='text-xl font-bold leading-tight tracking-tight text-lightGray md:text-2xl '>
                             {t('register.title')}
                         </h1>
                         <form className='space-y-4 md:space-y-6'>
                             <div>
                                 <label
                                     htmlFor='fullName'
-                                    className='block mb-2 text-sm font-medium text-gray-900 '
+                                    className='block mb-2 text-sm font-medium text-lightGray '
                                 >
                                     {t('register.fullName')}
                                 </label>
@@ -72,7 +72,7 @@ export const RegisterPage = () => {
                             <div>
                                 <label
                                     htmlFor='email'
-                                    className='block mb-2 text-sm font-medium text-gray-900 '
+                                    className='block mb-2 text-sm font-medium text-lightGray '
                                 >
                                     {t('register.email')}
                                 </label>
@@ -89,7 +89,7 @@ export const RegisterPage = () => {
                             <div>
                                 <label
                                     htmlFor='password'
-                                    className='block mb-2 text-sm font-medium text-gray-900 '
+                                    className='block mb-2 text-sm font-medium text-lightGray '
                                 >
                                     {t('register.password')}
                                 </label>
