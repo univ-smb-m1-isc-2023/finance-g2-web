@@ -1,5 +1,5 @@
 import { Button, Card, TextInput } from 'flowbite-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PlusCircleIcon } from '@heroicons/react/24/solid';
 import { BasePage } from '../component/base/BasePage';
@@ -9,14 +9,34 @@ import { DeleteDepenseModal } from '../component/modal/DeleteDepenseModal';
 import { DepenseModal } from '../component/modal/DepenseModal';
 import { TfiImport } from 'react-icons/tfi';
 import { ImportCsvModal } from '../component/modal/ImportCsvModal';
+import { useParams } from 'react-router-dom';
+import { get } from '../utils/http';
 
 export const DepensePage = () => {
+    const { id } = useParams();
     const [search, setSearch] = useState<string>('');
     const [createDepense, setCreateDepense] = useState<boolean>(false);
     const [deleteDepense, setDeleteDepense] = useState<boolean>(false);
     const [editDepense, setEditDepense] = useState<boolean>(false);
     const [DepenseForModal, setDepenseForModal] = useState<Depense | null>(null);
     const [importCsvOpen, setImportCsvOpen] = useState<boolean>(false);
+    const [depenseList, setDepenseList] = useState<Depense[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string>('');
+
+    useEffect(() => {
+        setLoading(true);
+        setError('');
+        (async () => {
+            const depenseListInfo = await get('/transaction/account', { account: id });
+            setLoading(false);
+            if (depenseListInfo.error) {
+                setError(depenseListInfo.error);
+                return;
+            }
+            setDepenseList(depenseListInfo);
+        })();
+    }, [, createDepense, deleteDepense, editDepense]);
 
     const onAdd = () => {
         setCreateDepense(true);
@@ -84,6 +104,9 @@ export const DepensePage = () => {
                         onEdit={onEdit}
                         onDelete={onDelete}
                         search={search}
+                        depenseList={depenseList}
+                        loading={loading}
+                        error={error}
                     />
                 </div>
             </div>

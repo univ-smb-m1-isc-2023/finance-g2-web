@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Button, Card, Spinner, Table } from 'flowbite-react';
-import { EyeIcon, PlusCircleIcon, TrashIcon, WrenchIcon } from '@heroicons/react/24/solid';
+import { PlusCircleIcon, TrashIcon, WrenchIcon } from '@heroicons/react/24/solid';
 import { useTranslation } from 'react-i18next';
 import Cagnotte from '../object/Cagnotte';
 
@@ -80,16 +80,6 @@ export const CagnotteListTable = (props: CagnotteListTableProps) => {
                                     <Table.Cell>
                                         <div className='flex gap-2 items-end justify-end flex-wrap'>
                                             <div className='flex flex-col gap-2'>
-                                                <Button
-                                                    className='w-full'
-                                                    color='purple'
-                                                    onClick={() => {}}
-                                                >
-                                                    <span className='flex items-center justify-center gap-2 flex-row'>
-                                                        <EyeIcon className='h-6 w-6' />
-                                                        {t('cagnotte.see')}
-                                                    </span>
-                                                </Button>
                                                 <Button
                                                     className='w-full'
                                                     color='warning'

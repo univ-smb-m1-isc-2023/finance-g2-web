@@ -49,13 +49,6 @@ export const CustomSideBar = (props: SidebarProps) => {
                     />
                     <CustomSideBarItem
                         collapsed={collapsed}
-                        path='/spent'
-                        active={route?.path === '/spent'}
-                        icon={GiPayMoney as any}
-                        label={t('sidebar.spent')}
-                    />
-                    <CustomSideBarItem
-                        collapsed={collapsed}
                         path='/line'
                         active={route?.path === '/line'}
                         icon={FaChartLine as any}

@@ -1,10 +1,12 @@
+import Compte from './Compte';
+
 export default class Cagnotte {
     private _id: number;
     private _name: string;
     private _description: string;
-    private _account: number;
+    private _account: Compte;
 
-    constructor(id: number = 0, name: string = '', description: string = '', account: number = 0) {
+    constructor(id: number = 0, name: string = '', description: string = '', account: Compte = new Compte()) {
         this._id = id;
         this._name = name;
         this._description = description;
@@ -35,11 +37,11 @@ export default class Cagnotte {
         this._description = value;
     }
 
-    public get account(): number {
+    public get account(): Compte {
         return this._account;
     }
 
-    public set account(value: number) {
+    public set account(value: Compte) {
         this._account = value;
     }
 

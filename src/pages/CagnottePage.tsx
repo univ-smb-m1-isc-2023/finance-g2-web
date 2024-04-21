@@ -25,7 +25,7 @@ export const CagnottePage = () => {
         setLoading(true);
         setError('');
         (async () => {
-            const cagnotteListInfo = await get('/tag/tags', { accountId: id });
+            const cagnotteListInfo = await get('/tag/tags', { account: id });
             setLoading(false);
             if (cagnotteListInfo.error) {
                 setError(cagnotteListInfo.error);

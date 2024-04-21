@@ -26,7 +26,7 @@ export const AppRoutes = () => {
                         Component={CagnottePage}
                     />
                     <Route
-                        path='/spent'
+                        path='/account/spent/:id'
                         Component={DepensePage}
                     />
                     <Route

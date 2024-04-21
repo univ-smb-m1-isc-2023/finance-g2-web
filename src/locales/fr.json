@@ -75,7 +75,8 @@
         "delete_title": "Supprimer un compte",
         "name": "Nom du compte",
         "balance": "Solde du compte",
-        "jackpot": "Cagnottes"
+        "jackpot": "Cagnottes",
+        "spent": "Dépenses"
     },
     "depense": {
         "title": "Liste des dépenses",
@@ -94,7 +95,10 @@
         "confirm_delete": "Êtes-vous sûr de vouloir supprimer cette dépense ? Cette action est irréversible.",
         "delete_title": "Supprimer une dépense",
         "import_csv": "Importer un fichier CSV",
-        "import": "Importer"
+        "import": "Importer",
+        "amount": "Montant",
+        "date": "Date",
+        "tag": "Cagnotte"
     },
     "error": {
         "login": "Erreur lors de la connexion",

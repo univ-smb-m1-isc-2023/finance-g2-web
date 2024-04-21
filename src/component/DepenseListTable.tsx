@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
 import { Button, Card, Spinner, Table } from 'flowbite-react';
-import { EyeIcon, PlusCircleIcon, TrashIcon, WrenchIcon } from '@heroicons/react/24/solid';
+import { PlusCircleIcon, TrashIcon, WrenchIcon } from '@heroicons/react/24/solid';
 import { useTranslation } from 'react-i18next';
 import Depense from '../object/Depense';
 
@@ -9,23 +8,19 @@ interface DepenseListTableProps {
     onEdit: (depense: Depense) => void;
     onDelete: (depense: Depense) => void;
     search: string;
+    depenseList: Depense[];
+    loading: boolean;
+    error: string;
 }
 
 export const DepenseListTable = (props: DepenseListTableProps) => {
     const { t } = useTranslation();
 
-    const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string>('');
+    const { loading, depenseList, error } = props;
 
-    const [depenseList, setDepenseList] = useState<Depense[]>([]);
-
-    useEffect(() => {
-        (async () => {
-            //get depense list
-        })();
-    }, []);
-
-    const finalList = depenseList;
+    const finalList = depenseList.sort((a, b) =>
+        a.transactionDate.toLocaleString().localeCompare(b.transactionDate.toLocaleString()),
+    );
 
     return (
         <section className='gap-4 flex flex-col'>
@@ -59,7 +54,9 @@ export const DepenseListTable = (props: DepenseListTableProps) => {
                     className='shadow-lg'
                 >
                     <Table.Head>
-                        <Table.HeadCell>{t('depense.')}</Table.HeadCell>
+                        <Table.HeadCell>{t('depense.amount')}</Table.HeadCell>
+                        <Table.HeadCell>{t('depense.date')}</Table.HeadCell>
+                        <Table.HeadCell>{t('depense.tag')}</Table.HeadCell>
                         <Table.HeadCell>{t('depense.actions')}</Table.HeadCell>
                     </Table.Head>
 
@@ -70,20 +67,12 @@ export const DepenseListTable = (props: DepenseListTableProps) => {
                                     className='bg-white dark:border-gray-700 dark:bg-gray-800'
                                     key={index}
                                 >
-                                    <Table.Cell></Table.Cell>
+                                    <Table.Cell>{depense.amount}€</Table.Cell>
+                                    <Table.Cell>{new Date(depense.transactionDate).toLocaleDateString()}</Table.Cell>
+                                    <Table.Cell>{depense.tag.name}</Table.Cell>
                                     <Table.Cell>
                                         <div className='flex gap-2 items-end justify-end flex-wrap'>
                                             <div className='flex flex-col gap-2'>
-                                                <Button
-                                                    className='w-full'
-                                                    color='purple'
-                                                    onClick={() => {}}
-                                                >
-                                                    <span className='flex items-center justify-center gap-2 flex-row'>
-                                                        <EyeIcon className='h-6 w-6' />
-                                                        {t('depense.see')}
-                                                    </span>
-                                                </Button>
                                                 <Button
                                                     className='w-full'
                                                     color='warning'

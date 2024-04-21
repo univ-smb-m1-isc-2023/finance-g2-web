@@ -1,5 +1,6 @@
 import { Button, Card, Spinner, Table } from 'flowbite-react';
-import { EyeIcon, PlusCircleIcon, TrashIcon, WrenchIcon } from '@heroicons/react/24/solid';
+import { PlusCircleIcon, TrashIcon } from '@heroicons/react/24/solid';
+import { GiMoneyStack } from 'react-icons/gi';
 import { useTranslation } from 'react-i18next';
 import Compte from '../object/Compte';
 import { useNavigate } from 'react-router-dom';
@@ -79,26 +80,40 @@ export const CompteListTable = (props: CompteListTableProps) => {
                                                 <Button
                                                     className='w-full'
                                                     color='purple'
-                                                    onClick={() => {}}
-                                                >
-                                                    <span className='flex items-center justify-center gap-2 flex-row'>
-                                                        <EyeIcon className='h-6 w-6' />
-                                                        {t('compte.see')}
-                                                    </span>
-                                                </Button>
-                                                <Button
-                                                    className='w-full'
-                                                    color='warning'
                                                     onClick={() => {
                                                         navigate(`/account/jackpot/${compte.id}`);
                                                     }}
                                                 >
                                                     <span className='flex items-center justify-center gap-2 flex-row'>
-                                                        <WrenchIcon className='h-6 w-6' />
+                                                        <GiMoneyStack className='h-6 w-6' />
                                                         {t('compte.jackpot')}
                                                     </span>
                                                 </Button>
+                                                <Button
+                                                    className='w-full'
+                                                    color='blue'
+                                                    onClick={() => {
+                                                        navigate(`/account/spent/${compte.id}`);
+                                                    }}
+                                                >
+                                                    <span className='flex items-center justify-center gap-2 flex-row'>
+                                                        <GiMoneyStack className='h-6 w-6' />
+                                                        {t('compte.spent')}
+                                                    </span>
+                                                </Button>
 
+                                                <Button
+                                                    className='w-full'
+                                                    color='warning'
+                                                    onClick={() => {
+                                                        props.onEdit(compte);
+                                                    }}
+                                                >
+                                                    <span className='flex items-center justify-center gap-2 flex-row'>
+                                                        <TrashIcon className='h-6 w-6' />
+                                                        {t('compte.edit')}
+                                                    </span>
+                                                </Button>
                                                 <Button
                                                     className='w-full'
                                                     color='failure'
