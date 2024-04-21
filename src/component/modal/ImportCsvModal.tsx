@@ -1,8 +1,9 @@
 import { Button, Modal, Spinner } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import CustomFileInput from '../base/FileInput';
+import { postFile } from '../../utils/http';
 
 interface IImportCsvModalProps {
     open: boolean;
@@ -11,6 +12,7 @@ interface IImportCsvModalProps {
 
 export const ImportCsvModal = (props: IImportCsvModalProps) => {
     const { t } = useTranslation();
+    const { id } = useParams();
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
     const { open, onClose } = props;
@@ -18,7 +20,17 @@ export const ImportCsvModal = (props: IImportCsvModalProps) => {
     const navigate = useNavigate();
 
     const submit = async () => {
-        //import csv
+        setLoading(true);
+        const addTransactionInfo = await postFile('/transaction/upload', file, {
+            file: file,
+            id: id,
+        });
+        setLoading(false);
+        if (addTransactionInfo.error) {
+            setError(addTransactionInfo.error);
+        } else {
+            onClose();
+        }
     };
 
     useEffect(() => {
@@ -32,7 +44,7 @@ export const ImportCsvModal = (props: IImportCsvModalProps) => {
             show={open}
             onClose={onClose}
         >
-            <Modal.Header>{t('depense.import_csv')}</Modal.Header>
+            <Modal.Header>{t('transaction.import_csv')}</Modal.Header>
             <Modal.Body>
                 <CustomFileInput
                     value={file}
@@ -46,13 +58,13 @@ export const ImportCsvModal = (props: IImportCsvModalProps) => {
                     color='gray'
                     onClick={() => onClose()}
                 >
-                    {t('depense.cancel')}
+                    {t('transaction.cancel')}
                 </Button>
                 <Button
                     className='bg-secondary text-white'
                     onClick={() => submit()}
                 >
-                    {t('depense.import')}
+                    {t('transaction.import')}
                 </Button>
             </Modal.Footer>
         </Modal>

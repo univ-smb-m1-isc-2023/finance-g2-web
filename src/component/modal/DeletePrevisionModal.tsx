@@ -1,21 +1,31 @@
 import { Button, Modal, Spinner } from 'flowbite-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { post } from '../../utils/http';
 
-interface IDeleteDepenseModalProps {
+interface IDeletePrevisionModalProps {
     open: boolean;
     onClose: () => void;
-    depense: any;
+    prevision: any;
 }
 
-export const DeleteDepenseModal = (props: IDeleteDepenseModalProps) => {
+export const DeletePrevisionModal = (props: IDeletePrevisionModalProps) => {
     const { t } = useTranslation();
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
-    const { open, onClose, depense } = props;
+    const { open, onClose, prevision } = props;
 
     const submit = async () => {
-        //delete depense
+        setLoading(true);
+        const deletePrevisionInfo = await post('/forecast/delete', {
+            id: prevision.id,
+        });
+        setLoading(false);
+        if (deletePrevisionInfo.error) {
+            setError(deletePrevisionInfo.error);
+        } else {
+            onClose();
+        }
     };
 
     return (
@@ -23,9 +33,9 @@ export const DeleteDepenseModal = (props: IDeleteDepenseModalProps) => {
             show={open}
             onClose={onClose}
         >
-            <Modal.Header>{t('depense.delete_title')}</Modal.Header>
+            <Modal.Header>{t('prevision.delete_title')}</Modal.Header>
             <Modal.Body>
-                <p>{t('depense.confirm_delete')}</p>
+                <p>{t('prevision.confirm_delete')}</p>
                 {error !== '' && <p className='mt-3 text-center text-red-700'>{error}</p>}
 
                 {loading && (
@@ -39,13 +49,13 @@ export const DeleteDepenseModal = (props: IDeleteDepenseModalProps) => {
                     color='gray'
                     onClick={() => onClose()}
                 >
-                    {t('depense.cancel')}
+                    {t('prevision.cancel')}
                 </Button>
                 <Button
                     color='failure'
                     onClick={() => submit()}
                 >
-                    {t('depense.delete')}
+                    {t('prevision.delete')}
                 </Button>
             </Modal.Footer>
         </Modal>

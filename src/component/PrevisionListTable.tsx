@@ -1,25 +1,26 @@
-import { useEffect } from 'react';
 import { Button, Card, Spinner, Table } from 'flowbite-react';
 import { PlusCircleIcon, TrashIcon, WrenchIcon } from '@heroicons/react/24/solid';
 import { useTranslation } from 'react-i18next';
-import Cagnotte from '../object/Cagnotte';
+import Prevision from '../object/Prevision';
 
-interface CagnotteListTableProps {
+interface PrevisionListTableProps {
     onAdd: () => void;
-    onEdit: (cagnotte: Cagnotte) => void;
-    onDelete: (cagnotte: Cagnotte) => void;
+    onEdit: (prevision: Prevision) => void;
+    onDelete: (prevision: Prevision) => void;
     search: string;
-    cagnotteList: Cagnotte[];
+    previsionList: Prevision[];
     loading: boolean;
     error: string;
 }
 
-export const CagnotteListTable = (props: CagnotteListTableProps) => {
+export const PrevisionListTable = (props: PrevisionListTableProps) => {
     const { t } = useTranslation();
 
-    const { loading, cagnotteList, error } = props;
+    const { loading, previsionList, error } = props;
 
-    const finalList = cagnotteList.sort((a, b) => a.name.localeCompare(b.name));
+    const finalList = previsionList
+        .sort((a, b) => a.year.toLocaleString().localeCompare(b.year.toLocaleString()))
+        .sort((a, b) => a.month.toLocaleString().localeCompare(b.month.toLocaleString()));
 
     return (
         <section className='gap-4 flex flex-col'>
@@ -33,7 +34,7 @@ export const CagnotteListTable = (props: CagnotteListTableProps) => {
             {finalList.length === 0 && !loading ? (
                 <Card className=''>
                     <div className='flex items-center flex-col justify-center gap-8 p-8'>
-                        <h1 className='text-xl font-bold'>{t('cagnotte.no_cagnotte')}</h1>
+                        <h1 className='text-xl font-bold'>{t('prevision.no_prevision')}</h1>
                         <Button
                             className='bg-primary'
                             onClick={() => {
@@ -42,7 +43,7 @@ export const CagnotteListTable = (props: CagnotteListTableProps) => {
                         >
                             <span className='flex flex-row gap-2 items-center justify-center'>
                                 <PlusCircleIcon className='h-6 w-6' />
-                                {t('cagnotte.add_cagnotte')}
+                                {t('prevision.add_prevision')}
                             </span>
                         </Button>
                     </div>
@@ -53,24 +54,26 @@ export const CagnotteListTable = (props: CagnotteListTableProps) => {
                     className='shadow-lg'
                 >
                     <Table.Head>
-                        <Table.HeadCell>{t('cagnotte.name')}</Table.HeadCell>
-                        <Table.HeadCell>{t('cagnotte.desc')}</Table.HeadCell>
-                        <Table.HeadCell>{t('cagnotte.actions')}</Table.HeadCell>
+                        <Table.HeadCell>{t('prevision.name')}</Table.HeadCell>
+                        <Table.HeadCell>{t('prevision.amount')}</Table.HeadCell>
+                        <Table.HeadCell>{t('prevision.month')}</Table.HeadCell>
+                        <Table.HeadCell>{t('prevision.year')}</Table.HeadCell>
+                        <Table.HeadCell>{t('prevision.tag')}</Table.HeadCell>
+                        <Table.HeadCell>{t('prevision.actions')}</Table.HeadCell>
                     </Table.Head>
 
                     <Table.Body className='divide-y'>
-                        {finalList.map((cagnotte, index) => {
+                        {finalList.map((prevision, index) => {
                             return (
                                 <Table.Row
                                     className='bg-white dark:border-gray-700 dark:bg-gray-800'
                                     key={index}
                                 >
-                                    <Table.Cell>
-                                        <span>{cagnotte.name}</span>
-                                    </Table.Cell>
-                                    <Table.Cell>
-                                        <span>{cagnotte.description}</span>
-                                    </Table.Cell>
+                                    <Table.Cell>{prevision.name}</Table.Cell>
+                                    <Table.Cell>{prevision.amount}€</Table.Cell>
+                                    <Table.Cell>{prevision.month}</Table.Cell>
+                                    <Table.Cell>{prevision.year}</Table.Cell>
+                                    <Table.Cell>{prevision.tag.name}</Table.Cell>
                                     <Table.Cell>
                                         <div className='flex gap-2 items-end justify-end flex-wrap'>
                                             <div className='flex flex-col gap-2'>
@@ -78,12 +81,12 @@ export const CagnotteListTable = (props: CagnotteListTableProps) => {
                                                     className='w-full'
                                                     color='warning'
                                                     onClick={() => {
-                                                        props.onEdit(cagnotte);
+                                                        props.onEdit(prevision);
                                                     }}
                                                 >
                                                     <span className='flex items-center justify-center gap-2 flex-row'>
                                                         <WrenchIcon className='h-6 w-6' />
-                                                        {t('cagnotte.edit')}
+                                                        {t('prevision.edit')}
                                                     </span>
                                                 </Button>
 
@@ -91,12 +94,12 @@ export const CagnotteListTable = (props: CagnotteListTableProps) => {
                                                     className='w-full'
                                                     color='failure'
                                                     onClick={() => {
-                                                        props.onDelete(cagnotte);
+                                                        props.onDelete(prevision);
                                                     }}
                                                 >
                                                     <span className='flex items-center justify-center gap-2 flex-row'>
                                                         <TrashIcon className='h-6 w-6' />
-                                                        {t('cagnotte.remove')}
+                                                        {t('prevision.remove')}
                                                     </span>
                                                 </Button>
                                             </div>

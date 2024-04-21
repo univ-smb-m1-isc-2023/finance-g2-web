@@ -19,8 +19,8 @@ export const CagnotteModal = (props: ICagnotteModalProps) => {
     const [error, setError] = useState<string>('');
     const { open, onClose, cagnotte } = props;
 
-    const [name, setName] = useState<string>('');
-    const [description, setDescription] = useState<string>('');
+    const [name, setName] = useState<string>(cagnotte ? cagnotte.name : '');
+    const [description, setDescription] = useState<string>(cagnotte ? cagnotte.description : '');
 
     const addCagnotte = async () => {
         setLoading(true);
@@ -38,12 +38,24 @@ export const CagnotteModal = (props: ICagnotteModalProps) => {
     };
 
     const editCagnotte = async () => {
-        //edit cagnotte
+        setLoading(true);
+        const editCompteInfo = await post('/tag/edit', {
+            id: cagnotte.id,
+            name: name,
+            description: description,
+        });
+        setLoading(false);
+        if (editCompteInfo.error) {
+            setError(editCompteInfo.error);
+        } else {
+            onClose();
+        }
     };
 
     useEffect(() => {
         if (cagnotte) {
-            //set cagnotte data
+            setName(cagnotte.name);
+            setDescription(cagnotte.description);
         }
     }, [cagnotte]);
 

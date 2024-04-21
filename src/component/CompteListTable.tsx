@@ -1,5 +1,5 @@
 import { Button, Card, Spinner, Table } from 'flowbite-react';
-import { PlusCircleIcon, TrashIcon } from '@heroicons/react/24/solid';
+import { PlusCircleIcon, TrashIcon, WrenchIcon } from '@heroicons/react/24/solid';
 import { GiMoneyStack } from 'react-icons/gi';
 import { useTranslation } from 'react-i18next';
 import Compte from '../object/Compte';
@@ -101,6 +101,18 @@ export const CompteListTable = (props: CompteListTableProps) => {
                                                         {t('compte.spent')}
                                                     </span>
                                                 </Button>
+                                                <Button
+                                                    className='w-full'
+                                                    color='success'
+                                                    onClick={() => {
+                                                        navigate(`/account/forecast/${compte.id}`);
+                                                    }}
+                                                >
+                                                    <span className='flex items-center justify-center gap-2 flex-row'>
+                                                        <GiMoneyStack className='h-6 w-6' />
+                                                        {t('compte.forecast')}
+                                                    </span>
+                                                </Button>
 
                                                 <Button
                                                     className='w-full'
@@ -110,7 +122,7 @@ export const CompteListTable = (props: CompteListTableProps) => {
                                                     }}
                                                 >
                                                     <span className='flex items-center justify-center gap-2 flex-row'>
-                                                        <TrashIcon className='h-6 w-6' />
+                                                        <WrenchIcon className='h-6 w-6' />
                                                         {t('compte.edit')}
                                                     </span>
                                                 </Button>

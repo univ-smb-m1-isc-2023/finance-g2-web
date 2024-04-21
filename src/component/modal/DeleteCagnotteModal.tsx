@@ -1,6 +1,7 @@
 import { Button, Modal, Spinner } from 'flowbite-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { post } from '../../utils/http';
 
 interface IDeleteCagnotteModalProps {
     open: boolean;
@@ -15,7 +16,16 @@ export const DeleteCagnotteModal = (props: IDeleteCagnotteModalProps) => {
     const { open, onClose, cagnotte } = props;
 
     const submit = async () => {
-        //delete cagnotte
+        setLoading(true);
+        const deleteTransactionInfo = await post('/tag/delete', {
+            id: cagnotte.id,
+        });
+        setLoading(false);
+        if (deleteTransactionInfo.error) {
+            setError(deleteTransactionInfo.error);
+        } else {
+            onClose();
+        }
     };
 
     return (
