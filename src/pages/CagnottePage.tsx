@@ -10,9 +10,7 @@ import { CagnotteModal } from '../component/modal/CagnotteModal';
 import { useParams } from 'react-router-dom';
 import { get } from '../utils/http';
 
-interface CagnottePageProps {}
-
-export const CagnottePage = (props: CagnottePageProps) => {
+export const CagnottePage = () => {
     const { id } = useParams();
     const [search, setSearch] = useState<string>('');
     const [createCagnotte, setCreateCagnotte] = useState<boolean>(false);

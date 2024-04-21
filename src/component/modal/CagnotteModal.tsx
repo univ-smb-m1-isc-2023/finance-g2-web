@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Cagnotte from '../../object/Cagnotte';
 import { Input } from '../base/Input';
+import { useParams } from 'react-router-dom';
+import { post } from '../../utils/http';
 
 interface ICagnotteModalProps {
     open: boolean;
@@ -12,12 +14,27 @@ interface ICagnotteModalProps {
 
 export const CagnotteModal = (props: ICagnotteModalProps) => {
     const { t } = useTranslation();
+    const { id } = useParams();
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
     const { open, onClose, cagnotte } = props;
 
+    const [name, setName] = useState<string>('');
+    const [description, setDescription] = useState<string>('');
+
     const addCagnotte = async () => {
-        //add cagnotte
+        setLoading(true);
+        const addCompteInfo = await post('/tag/create', {
+            name: name,
+            description: description,
+            account: id,
+        });
+        setLoading(false);
+        if (addCompteInfo.error) {
+            setError(addCompteInfo.error);
+        } else {
+            onClose();
+        }
     };
 
     const editCagnotte = async () => {
@@ -41,10 +58,24 @@ export const CagnotteModal = (props: ICagnotteModalProps) => {
                     <div className='flex w-full flex-row gap-5'>
                         <div className='flex-1'>
                             <Input
-                                label={t('')}
-                                placeholder={t('')}
-                                value={''}
-                                onChange={(e) => {}}
+                                label={t('cagnotte.name')}
+                                placeholder={t('cagnotte.name')}
+                                value={name}
+                                onChange={(e) => {
+                                    setName(e.target.value);
+                                }}
+                            />
+                        </div>
+                    </div>
+                    <div className='flex w-full flex-row gap-5'>
+                        <div className='flex-1'>
+                            <Input
+                                label={t('cagnotte.desc')}
+                                placeholder={t('cagnotte.desc')}
+                                value={description}
+                                onChange={(e) => {
+                                    setDescription(e.target.value);
+                                }}
                             />
                         </div>
                     </div>

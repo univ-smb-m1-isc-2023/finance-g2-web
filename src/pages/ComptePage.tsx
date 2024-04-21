@@ -9,9 +9,7 @@ import { DeleteCompteModal } from '../component/modal/DeleteCompteModal';
 import { CompteModal } from '../component/modal/CompteModal';
 import { get } from '../utils/http';
 
-interface ComptePageProps {}
-
-export const ComptePage = (props: ComptePageProps) => {
+export const ComptePage = () => {
     const [search, setSearch] = useState<string>('');
     const [createCompte, setCreateCompte] = useState<boolean>(false);
     const [deleteCompte, setDeleteCompte] = useState<boolean>(false);

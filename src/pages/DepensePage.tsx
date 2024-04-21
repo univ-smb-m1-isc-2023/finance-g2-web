@@ -10,9 +10,7 @@ import { DepenseModal } from '../component/modal/DepenseModal';
 import { TfiImport } from 'react-icons/tfi';
 import { ImportCsvModal } from '../component/modal/ImportCsvModal';
 
-interface DepensePageProps {}
-
-export const DepensePage = (props: DepensePageProps) => {
+export const DepensePage = () => {
     const [search, setSearch] = useState<string>('');
     const [createDepense, setCreateDepense] = useState<boolean>(false);
     const [deleteDepense, setDeleteDepense] = useState<boolean>(false);
