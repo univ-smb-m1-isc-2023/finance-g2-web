@@ -18,8 +18,8 @@ export const CompteModal = (props: ICompteModalProps) => {
     const { t } = useTranslation();
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
-    const [accountName, setAccountName] = useState<string>('');
     const { open, onClose, compte } = props;
+    const [accountName, setAccountName] = useState<string>(compte ? compte.accountName : '');
 
     const addCompte = async () => {
         setLoading(true);
@@ -37,12 +37,22 @@ export const CompteModal = (props: ICompteModalProps) => {
     };
 
     const editCompte = async () => {
-        //edit compte
+        setLoading(true);
+        const editCompteInfo = await post('/account/edit', {
+            id: compte.id,
+            accountName: accountName,
+        });
+        setLoading(false);
+        if (editCompteInfo.error) {
+            setError(editCompteInfo.error);
+        } else {
+            onClose();
+        }
     };
 
     useEffect(() => {
         if (compte) {
-            //set compte data
+            setAccountName(compte.accountName);
         }
     }, [compte]);
 

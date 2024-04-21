@@ -3,22 +3,22 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { post } from '../../utils/http';
 
-interface IDeleteCompteModalProps {
+interface IDeleteTransactionModalProps {
     open: boolean;
     onClose: () => void;
-    compte: any;
+    transaction: any;
 }
 
-export const DeleteCompteModal = (props: IDeleteCompteModalProps) => {
+export const DeleteTransactionModal = (props: IDeleteTransactionModalProps) => {
     const { t } = useTranslation();
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
-    const { open, onClose, compte } = props;
+    const { open, onClose, transaction } = props;
 
     const submit = async () => {
         setLoading(true);
-        const deleteTransactionInfo = await post('/account/delete', {
-            id: compte.id,
+        const deleteTransactionInfo = await post('/transaction/delete', {
+            id: transaction.id,
         });
         setLoading(false);
         if (deleteTransactionInfo.error) {
@@ -33,9 +33,9 @@ export const DeleteCompteModal = (props: IDeleteCompteModalProps) => {
             show={open}
             onClose={onClose}
         >
-            <Modal.Header>{t('compte.delete_title')}</Modal.Header>
+            <Modal.Header>{t('transaction.delete_title')}</Modal.Header>
             <Modal.Body>
-                <p>{t('compte.confirm_delete')}</p>
+                <p>{t('transaction.confirm_delete')}</p>
                 {error !== '' && <p className='mt-3 text-center text-red-700'>{error}</p>}
 
                 {loading && (
@@ -49,13 +49,13 @@ export const DeleteCompteModal = (props: IDeleteCompteModalProps) => {
                     color='gray'
                     onClick={() => onClose()}
                 >
-                    {t('compte.cancel')}
+                    {t('transaction.cancel')}
                 </Button>
                 <Button
                     color='failure'
                     onClick={() => submit()}
                 >
-                    {t('compte.delete')}
+                    {t('transaction.delete')}
                 </Button>
             </Modal.Footer>
         </Modal>

@@ -3,11 +3,12 @@ import LinePage from './pages/LinePage';
 import { PiePage } from './pages/PiePage';
 import { LoginPage } from './pages/LoginPage';
 import { CagnottePage } from './pages/CagnottePage';
-import { DepensePage } from './pages/DepensePage';
+import { TransactionPage } from './pages/TransactionPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { ComptePage } from './pages/ComptePage';
 import { UserProvider } from './context/UserContext';
+import { PrevisionPage } from './pages/PrevisionPage';
 export const AppRoutes = () => {
     return (
         <BrowserRouter>
@@ -27,7 +28,11 @@ export const AppRoutes = () => {
                     />
                     <Route
                         path='/account/spent/:id'
-                        Component={DepensePage}
+                        Component={TransactionPage}
+                    />
+                    <Route
+                        path='/account/forecast/:id'
+                        Component={PrevisionPage}
                     />
                     <Route
                         path='/login'

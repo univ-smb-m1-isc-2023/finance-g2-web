@@ -1,7 +1,7 @@
 import { Button, Label, Modal, Select, Spinner } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Depense from '../../object/Depense';
+import Transaction from '../../object/Transaction';
 import { Input } from '../base/Input';
 import Cagnotte from '../../object/Cagnotte';
 import { get, post } from '../../utils/http';
@@ -9,24 +9,26 @@ import { useParams } from 'react-router-dom';
 import Datepicker from 'tailwind-datepicker-react';
 import { dateToString } from '../../utils/utils';
 
-interface IDepenseModalProps {
+interface ITransactionModalProps {
     open: boolean;
     onClose: () => void;
-    depense: Depense | null;
+    transaction: Transaction | null;
 }
 
-export const DepenseModal = (props: IDepenseModalProps) => {
+export const TransactionModal = (props: ITransactionModalProps) => {
     const { id } = useParams();
     const { t } = useTranslation();
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
-    const { open, onClose, depense } = props;
+    const { open, onClose, transaction } = props;
     const [cagnotteList, setCagnotteList] = useState<Cagnotte[]>([]);
     const [loadingCagnotte, setLoadingCagnotte] = useState<boolean>(false);
-    const [amount, setAmount] = useState<string>('');
-    const [tag, setTag] = useState<string>('');
+    const [name, setName] = useState<string>(transaction ? transaction.name : '');
+    const [amount, setAmount] = useState<string>(transaction ? transaction.amount.toString() : '');
+    const [tag, setTag] = useState<string>(transaction ? transaction.tag.id.toString() : '');
     const [show, setShow] = useState(false);
-    const [date, setDate] = useState(null);
+    const [type, setType] = useState<string>(transaction ? transaction.type : '');
+    const [date, setDate] = useState(transaction ? new Date(transaction.transactionDate) : new Date());
     const handleClose = () => setShow(false);
 
     useEffect(() => {
@@ -45,38 +47,61 @@ export const DepenseModal = (props: IDepenseModalProps) => {
 
     const finalList = cagnotteList.sort((a, b) => a.name.localeCompare(b.name));
 
-    const addDepense = async () => {
+    const addTransaction = async () => {
         setLoading(true);
-        const addCompteInfo = await post('/transaction/create', {
+        const addTransactionInfo = await post('/transaction/create', {
+            name: name,
             amount: amount,
             date: dateToString(new Date(date ?? new Date())),
             account: id,
+            type: type,
             tag: tag,
         });
         setLoading(false);
-        if (addCompteInfo.error) {
-            setError(addCompteInfo.error);
+        if (addTransactionInfo.error) {
+            setError(addTransactionInfo.error);
         } else {
             onClose();
         }
     };
 
-    const editDepense = async () => {
-        //edit depense
+    const editTransaction = async () => {
+        setLoading(true);
+        const editTransactionInfo = await post('/transaction/edit', {
+            id: transaction?.id,
+            name: name,
+            amount: amount,
+            date: dateToString(new Date(date ?? new Date())),
+            account: id,
+            type: type,
+            tag: tag,
+        });
+        setLoading(false);
+        if (editTransactionInfo.error) {
+            setError(editTransactionInfo.error);
+        } else {
+            onClose();
+        }
     };
 
     useEffect(() => {
-        if (depense) {
-            //set depense data
+        if (transaction) {
+            setName(transaction.name);
+            setAmount(transaction.amount.toString());
+            setTag(transaction.tag.id.toString());
+            setType(transaction.type);
+            setDate(new Date(transaction.transactionDate));
         }
-    }, [depense]);
+    }, [transaction]);
 
     return (
         <Modal
             show={open}
             onClose={onClose}
         >
-            <Modal.Header>{depense ? t('depense.edit_depense') : t('depense.add_depense')}</Modal.Header>
+            <Modal.Header>
+                {transaction ? t('transaction.edit_transaction') : t('transaction.add_transaction')}
+            </Modal.Header>
             <Modal.Body>
                 {loadingCagnotte && (
                     <div className='mt-3 w-full items-center justify-center flex'>
@@ -88,8 +113,20 @@ export const DepenseModal = (props: IDepenseModalProps) => {
                         <div className='flex w-full flex-row gap-5'>
                             <div className='flex-1'>
                                 <Input
-                                    label={t('depense.amount')}
-                                    placeholder={t('depense.amount')}
+                                    label={t('transaction.name')}
+                                    placeholder={t('transaction.name')}
+                                    value={name}
+                                    onChange={(e) => {
+                                        setName(e.target.value);
+                                    }}
+                                />
+                            </div>
+                        </div>
+                        <div className='flex w-full flex-row gap-5'>
+                            <div className='flex-1'>
+                                <Input
+                                    label={t('transaction.amount')}
+                                    placeholder={t('transaction.amount')}
                                     value={amount}
                                     onChange={(e) => {
                                         setAmount(e.target.value);
@@ -99,7 +136,7 @@ export const DepenseModal = (props: IDepenseModalProps) => {
                         </div>
                         <div className='flex w-full flex-row gap-5'>
                             <div className='flex-1 flex gap-1 w-full flex-col'>
-                                <Label>{t('depense.tag')}</Label>
+                                <Label>{t('transaction.tag')}</Label>
                                 <Select
                                     value={tag}
                                     onChange={(e) => {
@@ -117,6 +154,21 @@ export const DepenseModal = (props: IDepenseModalProps) => {
                                             </option>
                                         );
                                     })}
+                                </Select>
+                            </div>
+                        </div>
+                        <div className='flex w-full flex-row gap-5'>
+                            <div className='flex-1 flex gap-1 w-full flex-col'>
+                                <Label>{t('transaction.type')}</Label>
+                                <Select
+                                    value={type}
+                                    onChange={(e) => {
+                                        setType(e.target.value);
+                                    }}
+                                >
+                                    <option value=''>{t('')}</option>
+                                    <option value='depense'>{t('transaction.depense')}</option>
+                                    <option value='provision'>{t('transaction.provision')}</option>
                                 </Select>
                             </div>
                         </div>
@@ -157,7 +209,7 @@ export const DepenseModal = (props: IDepenseModalProps) => {
                                             <div className='...'></div>
                                             <Input
                                                 type='text'
-                                                label={t('depense.date')}
+                                                label={t('transaction.date')}
                                                 className='...'
                                                 placeholder='Select Date'
                                                 value={new Date(date ?? new Date()).toLocaleDateString()}
@@ -183,15 +235,15 @@ export const DepenseModal = (props: IDepenseModalProps) => {
                     color='gray'
                     onClick={() => onClose()}
                 >
-                    {t('depense.cancel')}
+                    {t('transaction.cancel')}
                 </Button>
                 <Button
                     onClick={() => {
-                        depense ? editDepense() : addDepense();
+                        transaction ? editTransaction() : addTransaction();
                     }}
                     className='bg-secondary text-white'
                 >
-                    {depense ? t('depense.edit') : t('depense.add')}
+                    {transaction ? t('transaction.edit') : t('transaction.add')}
                 </Button>
             </Modal.Footer>
         </Modal>
