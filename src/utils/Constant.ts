@@ -1,4 +1,4 @@
-export const SERVER_URL = 'http://localhost:3000';
+export const SERVER_URL = 'https//api.finance.oups.net';
 
 export const COLORLIST = {
     primary: '#71C4BC',

@@ -1,0 +1,27 @@
+name: Build and Deploy
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    build:
+        name: build main branch
+        permissions: write-all
+        runs-on: ubuntu-22.04
+
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Build Docker image
+              run: docker build -t finance-g2-web .
+
+            - name: Push to GitHub Packages
+              uses: docker/build-push-action@v1
+              with:
+                  username: ${{ github.actor }}
+                  password: ${{ secrets.GITHUB_TOKEN }}
+                  registry: docker.pkg.github.com
+                  repository: univ-smb-m1-isc-2023/finance-g2-web/main
+                  tags: latest
