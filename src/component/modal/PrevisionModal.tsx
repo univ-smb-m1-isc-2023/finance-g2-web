@@ -74,7 +74,7 @@ export const PrevisionModal = (props: IPrevisionModalProps) => {
                 account: id,
                 type: type,
                 tag: tag,
-                nbOfYear: parseInt(nbOfYear),
+                nbOfYears: parseInt(nbOfYear),
             });
             setLoading(false);
             if (addPrevisionInfo.error) {

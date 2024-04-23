@@ -25,7 +25,9 @@ export const TransactionModal = (props: ITransactionModalProps) => {
     const [loadingCagnotte, setLoadingCagnotte] = useState<boolean>(false);
     const [name, setName] = useState<string>(transaction ? transaction.name : '');
     const [amount, setAmount] = useState<string>(transaction ? transaction.amount.toString() : '');
-    const [tag, setTag] = useState<string>(transaction ? transaction.tag.id.toString() : '');
+    const [tag, setTag] = useState<string>(
+        transaction && transaction.tag && transaction.tag.id != null ? transaction.tag.id.toString() : '',
+    );
     const [show, setShow] = useState(false);
     const [type, setType] = useState<string>(transaction ? transaction.type : '');
     const [date, setDate] = useState(transaction ? new Date(transaction.transactionDate) : new Date());
@@ -88,7 +90,7 @@ export const TransactionModal = (props: ITransactionModalProps) => {
         if (transaction) {
             setName(transaction.name);
             setAmount(transaction.amount.toString());
-            setTag(transaction.tag.id.toString());
+            setTag(transaction && transaction.tag && transaction.tag.id != null ? transaction.tag.id.toString() : '');
             setType(transaction.type);
             setDate(new Date(transaction.transactionDate));
         }
