@@ -23,7 +23,7 @@ export const CagnotteTransactionModal = (props: ICagnotteTransactionModalProps) 
     const { open, onClose, transaction } = props;
     const [cagnotteList, setCagnotteList] = useState<Cagnotte[]>([]);
     const [loadingCagnotte, setLoadingCagnotte] = useState<boolean>(false);
-    const [tag, setTag] = useState<string>(transaction ? transaction.tag.id.toString() : '');
+    const [tag, setTag] = useState<string>(transaction && transaction.tag ? transaction.tag.id.toString() : '');
 
     useEffect(() => {
         setLoadingCagnotte(true);
@@ -57,7 +57,7 @@ export const CagnotteTransactionModal = (props: ICagnotteTransactionModalProps) 
     };
 
     useEffect(() => {
-        if (transaction) {
+        if (transaction && transaction.tag) {
             setTag(transaction.tag.id.toString());
         }
     }, [transaction]);
