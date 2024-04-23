@@ -142,7 +142,9 @@
         "october": "Octobre",
         "november": "Novembre",
         "december": "Décembre",
-        "name": "Nom"
+        "name": "Nom",
+        "muti_year": "Prévision sur plusieurs années",
+        "nbYear": "Nombre d'années"
     },
     "error": {
         "login": "Erreur lors de la connexion",

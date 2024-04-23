@@ -45,8 +45,8 @@ export const CagnotteTransactionModal = (props: ICagnotteTransactionModalProps) 
         setLoading(true);
         console.log(transaction.id, tag);
         const cagnotteTransactionInfo = await post('/transaction/tag', {
-            transaction: transaction.id,
-            tag: parseInt(tag),
+            transactionId: transaction.id,
+            tagId: parseInt(tag),
         });
         setLoading(false);
         if (cagnotteTransactionInfo.error) {

@@ -29,6 +29,8 @@ export const PrevisionModal = (props: IPrevisionModalProps) => {
     const [type, setType] = useState<string>(prevision ? prevision.type : '');
     const [month, setMonth] = useState<number>(prevision ? prevision.month : 0);
     const [year, setYear] = useState<number>(prevision ? prevision.year : 0);
+    const [isMultiYear, setIsMultiYear] = useState<boolean>(false);
+    const [nbOfYear, setOfNbYear] = useState<string>('');
     const handleClose = () => setShow(false);
 
     useEffect(() => {
@@ -49,19 +51,37 @@ export const PrevisionModal = (props: IPrevisionModalProps) => {
 
     const addPrevision = async () => {
         setLoading(true);
-        const addPrevisionInfo = await post('/forecast/create', {
-            amount: amount,
-            month: month,
-            year: year,
-            account: id,
-            type: type,
-            tag: tag,
-        });
-        setLoading(false);
-        if (addPrevisionInfo.error) {
-            setError(addPrevisionInfo.error);
+        if (!isMultiYear) {
+            const addPrevisionInfo = await post('/forecast/create', {
+                amount: amount,
+                month: month,
+                year: year,
+                account: id,
+                type: type,
+                tag: tag,
+            });
+            setLoading(false);
+            if (addPrevisionInfo.error) {
+                setError(addPrevisionInfo.error);
+            } else {
+                onClose();
+            }
         } else {
-            onClose();
+            const addPrevisionInfo = await post('/forecast/createMultiple', {
+                amount: amount,
+                month: month,
+                year: year,
+                account: id,
+                type: type,
+                tag: tag,
+                nbOfYear: parseInt(nbOfYear),
+            });
+            setLoading(false);
+            if (addPrevisionInfo.error) {
+                setError(addPrevisionInfo.error);
+            } else {
+                onClose();
+            }
         }
     };
 
@@ -206,6 +226,42 @@ export const PrevisionModal = (props: IPrevisionModalProps) => {
                                 </Select>
                             </div>
                         </div>
+                        {!prevision && (
+                            <>
+                                <div className='flex flex-row gap-2 w-full'>
+                                    <Label className='text-xl flex flex-row w-full font-bold'>
+                                        <span className={'flex-1'}>{t('prevision.muti_year')}</span>
+                                        <div className='flex items-center'>
+                                            <p className='mr-2 text-xs'>NON</p>
+                                            <div className='relative'>
+                                                <input
+                                                    type='checkbox'
+                                                    className='sr-only peer'
+                                                    checked={isMultiYear}
+                                                    onClick={() => setIsMultiYear(!isMultiYear)}
+                                                />
+                                                <div className="w-[2.8rem] h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                            </div>
+                                            <p className='ml-2 text-xs'>OUI</p>
+                                        </div>
+                                    </Label>
+                                </div>
+                                {isMultiYear && (
+                                    <div className='flex w-full flex-row gap-5'>
+                                        <div className='flex-1'>
+                                            <Input
+                                                label={t('prevision.nbYear')}
+                                                placeholder={t('prevision.nbYear')}
+                                                value={nbOfYear}
+                                                onChange={(e) => {
+                                                    setOfNbYear(e.target.value);
+                                                }}
+                                            />
+                                        </div>
+                                    </div>
+                                )}
+                            </>
+                        )}
                     </div>
                 )}
                 {loading && (
