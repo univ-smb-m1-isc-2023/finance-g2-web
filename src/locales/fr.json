@@ -103,7 +103,9 @@
         "depense": "Dépense",
         "provision": "Provision",
         "type": "Type",
-        "name": "Nom"
+        "name": "Nom",
+        "cagnotte": "Taguer",
+        "cagnotte_transaction": "Taguer une transaction"
     },
     "prevision": {
         "title": "Liste des prévisions",

@@ -70,6 +70,45 @@ export async function post(action: string, params: { [key: string]: any } = {}) 
     return res;
 }
 
+export async function uploadFile(file: File, accountId: number) {
+    let params = {
+        file: file,
+        id: accountId,
+    };
+    let res = null;
+    try {
+        const response = await fetch(SERVER_URL + '/transaction/upload', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
+            },
+            body: JSON.stringify(params),
+        });
+
+        if (!response.ok) {
+            console.log(response);
+            res = {
+                status: 'failed',
+                message: 'Upload failed: ' + response.statusText,
+            };
+        } else {
+            res = {
+                status: 'success',
+                message: await response.text(),
+            };
+        }
+    } catch (error) {
+        res = {
+            status: 'failed',
+            message: 'Exception during upload: ' + error.message,
+        };
+    }
+
+    return res;
+}
+
 export async function postFile(
     action: string,
     file: File | string | null | File[],

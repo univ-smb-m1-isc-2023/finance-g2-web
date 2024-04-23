@@ -11,12 +11,14 @@ import { TfiImport } from 'react-icons/tfi';
 import { ImportCsvModal } from '../component/modal/ImportCsvModal';
 import { useParams } from 'react-router-dom';
 import { get } from '../utils/http';
+import { CagnotteTransactionModal } from '../component/modal/CagnotteTransactionModal';
 
 export const TransactionPage = () => {
     const { id } = useParams();
     const [search, setSearch] = useState<string>('');
     const [createTransaction, setCreateTransaction] = useState<boolean>(false);
     const [deleteTransaction, setDeleteTransaction] = useState<boolean>(false);
+    const [cagnotteTransaction, setCagnotteTransaction] = useState<boolean>(false);
     const [editTransaction, setEditTransaction] = useState<boolean>(false);
     const [TransactionForModal, setTransactionForModal] = useState<Transaction | null>(null);
     const [importCsvOpen, setImportCsvOpen] = useState<boolean>(false);
@@ -50,6 +52,11 @@ export const TransactionPage = () => {
     const onDelete = (transaction: Transaction) => {
         setTransactionForModal(transaction);
         setDeleteTransaction(true);
+    };
+
+    const onCagnotte = (transaction: Transaction) => {
+        setTransactionForModal(transaction);
+        setCagnotteTransaction(true);
     };
 
     const { t } = useTranslation();
@@ -103,6 +110,7 @@ export const TransactionPage = () => {
                         onAdd={onAdd}
                         onEdit={onEdit}
                         onDelete={onDelete}
+                        onCagnotte={onCagnotte}
                         search={search}
                         transactionList={transactionList}
                         loading={loading}
@@ -120,6 +128,12 @@ export const TransactionPage = () => {
             <TransactionModal
                 open={editTransaction}
                 onClose={() => setEditTransaction(false)}
+                transaction={TransactionForModal}
+            />
+
+            <CagnotteTransactionModal
+                open={cagnotteTransaction}
+                onClose={() => setCagnotteTransaction(false)}
                 transaction={TransactionForModal}
             />
 

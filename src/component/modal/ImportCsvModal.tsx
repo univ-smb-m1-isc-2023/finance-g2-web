@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import CustomFileInput from '../base/FileInput';
-import { postFile } from '../../utils/http';
+import { postFile, uploadFile } from '../../utils/http';
 
 interface IImportCsvModalProps {
     open: boolean;
@@ -21,11 +21,14 @@ export const ImportCsvModal = (props: IImportCsvModalProps) => {
 
     const submit = async () => {
         setLoading(true);
+        const addTransactionInfo = await uploadFile(file, parseInt(id));
+        /*
         const addTransactionInfo = await postFile('/transaction/upload', file, {
             file: file,
             id: id,
-        });
+        });*/
         setLoading(false);
+        console.log(addTransactionInfo);
         if (addTransactionInfo.error) {
             setError(addTransactionInfo.error);
         } else {
