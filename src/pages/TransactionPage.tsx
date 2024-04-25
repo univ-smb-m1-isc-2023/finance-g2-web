@@ -11,12 +11,14 @@ import { TfiImport } from 'react-icons/tfi';
 import { ImportCsvModal } from '../component/modal/ImportCsvModal';
 import { useParams } from 'react-router-dom';
 import { get } from '../utils/http';
+import { CagnotteTransactionModal } from '../component/modal/CagnotteTransactionModal';
 
 export const TransactionPage = () => {
     const { id } = useParams();
     const [search, setSearch] = useState<string>('');
     const [createTransaction, setCreateTransaction] = useState<boolean>(false);
     const [deleteTransaction, setDeleteTransaction] = useState<boolean>(false);
+    const [cagnotteTransaction, setCagnotteTransaction] = useState<boolean>(false);
     const [editTransaction, setEditTransaction] = useState<boolean>(false);
     const [TransactionForModal, setTransactionForModal] = useState<Transaction | null>(null);
     const [importCsvOpen, setImportCsvOpen] = useState<boolean>(false);
@@ -52,14 +54,19 @@ export const TransactionPage = () => {
         setDeleteTransaction(true);
     };
 
+    const onCagnotte = (transaction: Transaction) => {
+        setTransactionForModal(transaction);
+        setCagnotteTransaction(true);
+    };
+
     const { t } = useTranslation();
 
     return (
         <BasePage>
             <div className='flex flex-col pb-4 px-4 mx-auto max-w-screen-xl text-center lg:pb-8 lg:px-12 w-full gap-4'>
-                <h1 className='text-4xl font-bold'>{t('transaction.title')}</h1>
+                <h1 className='text-darkGray text-4xl font-bold'>{t('transaction.title')}</h1>
 
-                <p className='text-xl'>{t('transaction.description')}</p>
+                <p className='text-darkGray text-xl'>{t('transaction.description')}</p>
 
                 <Card className='flex mb-4 w-full '>
                     <div className='flex flex-row items-center justify-center gap-3'>
@@ -103,6 +110,7 @@ export const TransactionPage = () => {
                         onAdd={onAdd}
                         onEdit={onEdit}
                         onDelete={onDelete}
+                        onCagnotte={onCagnotte}
                         search={search}
                         transactionList={transactionList}
                         loading={loading}
@@ -120,6 +128,12 @@ export const TransactionPage = () => {
             <TransactionModal
                 open={editTransaction}
                 onClose={() => setEditTransaction(false)}
+                transaction={TransactionForModal}
+            />
+
+            <CagnotteTransactionModal
+                open={cagnotteTransaction}
+                onClose={() => setCagnotteTransaction(false)}
                 transaction={TransactionForModal}
             />
 

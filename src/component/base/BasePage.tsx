@@ -35,7 +35,7 @@ export const BasePage = (props: SidebarProps) => {
     }, [width]);
 
     return (
-        <div className='w-full bg-stone-100 dark:bg-gray-900 flex flex-col h-full overflow-scroll'>
+        <div className='w-full bg-stone-100 dark:bg-lightGray flex flex-col h-full overflow-scroll'>
             <CustomNavBar
                 collapsed={collapsed}
                 onCollapse={() => setCollapsed(!collapsed)}

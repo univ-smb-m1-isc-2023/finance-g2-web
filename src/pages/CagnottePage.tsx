@@ -54,9 +54,9 @@ export const CagnottePage = () => {
     return (
         <BasePage>
             <div className='flex flex-col pb-4 px-4 mx-auto max-w-screen-xl text-center lg:pb-8 lg:px-12 w-full gap-4'>
-                <h1 className='text-4xl font-bold'>{t('cagnotte.title')}</h1>
+                <h1 className='text-darkGray text-4xl font-bold'>{t('cagnotte.title')}</h1>
 
-                <p className='text-xl'>{t('cagnotte.description')}</p>
+                <p className='text-darkGray text-xl'>{t('cagnotte.description')}</p>
 
                 <Card className='flex mb-4 w-full '>
                     <div className='flex flex-row items-center justify-center gap-3'>

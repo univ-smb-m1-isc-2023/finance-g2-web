@@ -2,11 +2,13 @@ import { Button, Card, Spinner, Table } from 'flowbite-react';
 import { PlusCircleIcon, TrashIcon, WrenchIcon } from '@heroicons/react/24/solid';
 import { useTranslation } from 'react-i18next';
 import Transaction from '../object/Transaction';
+import { GiMoneyStack } from 'react-icons/gi';
 
 interface TransactionListTableProps {
     onAdd: () => void;
     onEdit: (transaction: Transaction) => void;
     onDelete: (transaction: Transaction) => void;
+    onCagnotte: (transaction: Transaction) => void;
     search: string;
     transactionList: Transaction[];
     loading: boolean;
@@ -34,7 +36,7 @@ export const TransactionListTable = (props: TransactionListTableProps) => {
             {finalList.length === 0 && !loading ? (
                 <Card className=''>
                     <div className='flex items-center flex-col justify-center gap-8 p-8'>
-                        <h1 className='text-xl font-bold'>{t('transaction.no_transaction')}</h1>
+                        <h1 className='text-lightGray text-xl font-bold'>{t('transaction.no_transaction')}</h1>
                         <Button
                             className='bg-primary'
                             onClick={() => {
@@ -77,6 +79,19 @@ export const TransactionListTable = (props: TransactionListTableProps) => {
                                     <Table.Cell>
                                         <div className='flex gap-2 items-end justify-end flex-wrap'>
                                             <div className='flex flex-col gap-2'>
+                                                <Button
+                                                    className='w-full'
+                                                    color='purple'
+                                                    onClick={() => {
+                                                        props.onCagnotte(transaction);
+                                                    }}
+                                                >
+                                                    <span className='flex items-center justify-center gap-2 flex-row'>
+                                                        <GiMoneyStack className='h-6 w-6' />
+                                                        {t('transaction.cagnotte')}
+                                                    </span>
+                                                </Button>
+
                                                 <Button
                                                     className='w-full'
                                                     color='warning'

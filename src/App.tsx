@@ -1,10 +1,7 @@
-import { AppRoutes } from "./AppRoutes"
+import { AppRoutes } from './AppRoutes';
 
 export const App = () => {
+    return <AppRoutes />;
+};
 
-  return (
-    <AppRoutes />
-  )
-}
-
-export default App
+export default App;
