@@ -36,7 +36,7 @@ export const CompteListTable = (props: CompteListTableProps) => {
             {finalList.length === 0 && !loading ? (
                 <Card className=''>
                     <div className='flex items-center flex-col justify-center gap-8 p-8'>
-                        <h1 className='text-darkGray text-xl font-bold'>{t('compte.no_compte')}</h1>
+                        <h1 className='text-lightGray text-xl font-bold'>{t('compte.no_compte')}</h1>
                         <Button
                             onClick={() => {
                                 props.onAdd();
