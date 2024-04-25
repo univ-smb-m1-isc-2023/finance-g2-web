@@ -146,6 +146,15 @@
         "muti_year": "Prévision sur plusieurs années",
         "nbYear": "Nombre d'années"
     },
+    "dashboard": {
+        "title": "Tableau de bord",
+        "description": "Vue d'ensemble de vos finances",
+        "compte": "Comptes",
+        "cagnotte": "Cagnottes",
+        "select_account": "Sélectionner un compte",
+        "select_an_account": "Sélectionner un compte pour voir les graphiques de vos finances",
+        "all_cagnotte": "Toutes les cagnottes"
+    },
     "error": {
         "login": "Erreur lors de la connexion",
         "register": "Erreur lors de l'inscription"
