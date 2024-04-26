@@ -17,6 +17,7 @@ import {
     Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import Prevision from '../object/Prevision';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -24,6 +25,7 @@ export const DashboardPage = () => {
     const [compteList, setCompteList] = useState<Compte[]>([]);
     const [cagnotteList, setCagnotteList] = useState<Cagnotte[]>([]);
     const [transactionList, setTransactionList] = useState<Transaction[]>([]);
+    const [forecastList, setForecastList] = useState<Prevision[]>([]);
     const [loadingCompte, setLoadingCompte] = useState<boolean>(false);
     const [loadingCagnotte, setLoadingCagnotte] = useState<boolean>(false);
     const [loadingTransaction, setLoadingTransaction] = useState<boolean>(false);
@@ -32,8 +34,11 @@ export const DashboardPage = () => {
     const [cagnotteSelected, setCagnotteSelected] = useState<string>('all');
     const [labels, setLabels] = useState<string[]>([]);
     const [dataValues, setDataValues] = useState<number[]>([]);
+
+    const [labelsForecast, setLabelsForecast] = useState<string[]>([]);
+    const [dataValuesForecast, setDataValuesForecast] = useState<number[]>([]);
     const { t } = useTranslation();
-    -useEffect(() => {
+    useEffect(() => {
         setLoadingCompte(true);
         setError('');
         (async () => {
@@ -71,19 +76,30 @@ export const DashboardPage = () => {
                 const transactionListInfo = await get('/transaction/account', {
                     account: compteList.find((compte) => compte.id === parseInt(compteSelected)).id,
                 });
+
+                const forecastListInfo = await get('/forecast/account', {
+                    account: compteList.find((compte) => compte.id === parseInt(compteSelected)).id,
+                });
+
                 setLoadingTransaction(false);
-                if (transactionListInfo.error) {
-                    setError(transactionListInfo.error);
+                if (transactionListInfo.error || forecastListInfo.error) {
+                    setError(transactionListInfo.error + forecastListInfo.error);
                     return;
                 }
+                setForecastList(forecastListInfo);
                 setTransactionList(transactionListInfo);
             } else {
                 const transactionListInfo = await get('/transaction/getfromtags', {
                     tag: cagnotteList.find((cagnotte) => cagnotte.id === parseInt(cagnotteSelected)).id,
                 });
+
+                const forecastListInfo = await get('/forecast/getfromtags', {
+                    tag: cagnotteList.find((cagnotte) => cagnotte.id === parseInt(cagnotteSelected)).id,
+                });
                 setLoadingTransaction(false);
-                if (transactionListInfo.error) {
+                if (transactionListInfo.error || forecastListInfo.error) {
                     setError(transactionListInfo.error);
+                    setError(forecastListInfo.error);
                     return;
                 }
                 setTransactionList(transactionListInfo);
@@ -93,6 +109,25 @@ export const DashboardPage = () => {
 
     transactionList.sort((a, b) => {
         return new Date(a.transactionDate).getTime() - new Date(b.transactionDate).getTime();
+    });
+
+    forecastList.sort((a, b) => {
+        // has month and year
+        if (a.month && a.year) {
+            return new Date(a.year, a.month).getTime() - new Date(b.year, b.month).getTime();
+        }
+
+        // has only month
+        if (a.month) {
+            return a.month - b.month;
+        }
+
+        // has only year
+        if (a.year) {
+            return a.year - b.year;
+        }
+
+        return 0;
     });
 
     const getMonthName = (dateString) => {
@@ -109,7 +144,36 @@ export const DashboardPage = () => {
             setLabels(calculateDataLabels(sortedTransactions));
             setDataValues(calculateDataValues(sortedTransactions));
         }
-    }, [transactionList]);
+        console.log(forecastList);
+        if (forecastList.length > 0) {
+            const sortedForecast = forecastList.sort((a, b) => {
+                // has month and year
+                if (a.month && a.year) {
+                    return new Date(a.year, a.month).getTime() - new Date(b.year, b.month).getTime();
+                }
+
+                // has only month
+                if (a.month) {
+                    return a.month - b.month;
+                }
+
+                // has only year
+                if (a.year) {
+                    return a.year - b.year;
+                }
+
+                return 0;
+            });
+            console.log(sortedForecast);
+            setLabelsForecast(calculateDataLabelsForecast(sortedForecast));
+            setDataValuesForecast(calculateDataValuesForecast(sortedForecast));
+        }
+    }, [transactionList, forecastList]);
+
+    useEffect(() => {
+        console.log(labels);
+        console.log(dataValues);
+    }, [labels, dataValues]);
 
     const calculateDataLabels = (transactions) => {
         let labels = [];
@@ -118,6 +182,19 @@ export const DashboardPage = () => {
             if (date !== getMonthName(transaction.transactionDate)) {
                 labels.push(getMonthName(transaction.transactionDate));
                 date = getMonthName(transaction.transactionDate);
+            }
+        });
+        return labels;
+    };
+
+    const calculateDataLabelsForecast = (transactions) => {
+        let labels = [];
+        let date = '';
+        console.log('forecast', transactions);
+        transactions.forEach((transaction) => {
+            if (date !== transaction.month) {
+                labels.push(transaction.month);
+                date = transaction.month;
             }
         });
         return labels;
@@ -136,6 +213,27 @@ export const DashboardPage = () => {
             if (date !== getMonthName(transaction.transactionDate)) {
                 values.push(amount);
                 date = getMonthName(transaction.transactionDate);
+            } else {
+                values.pop();
+                values.push(amount);
+            }
+        });
+        return values;
+    };
+
+    const calculateDataValuesForecast = (transactions) => {
+        let values = [];
+        let amount = 0;
+        let date = '';
+        transactions.forEach((transaction) => {
+            if (transaction.type === 'depense') {
+                amount -= transaction.amount;
+            } else if (transaction.type === 'provision') {
+                amount += transaction.amount;
+            }
+            if (date !== transaction.month) {
+                values.push(amount);
+                date = transaction.month;
             } else {
                 values.pop();
                 values.push(amount);
@@ -170,14 +268,23 @@ export const DashboardPage = () => {
         },
     };
 
+    //aggregate labels and labelsForecast
+    const finalLabels = [...labels, ...labelsForecast];
+
     const data = {
-        labels,
+        labels: finalLabels,
         datasets: [
             {
                 label: cagnotteSelected === 'all' ? 'Évolution du compte' : 'Évolution de la cagnotte',
                 data: dataValues,
                 borderColor: 'rgb(255, 99, 132)',
                 backgroundColor: 'rgba(255, 99, 132, 0.5)',
+            },
+            {
+                label: cagnotteSelected === 'all' ? 'Prévision du compte' : 'Prévision de la cagnotte',
+                data: dataValuesForecast,
+                borderColor: 'rgb(54, 162, 235)',
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
             },
         ],
     };
