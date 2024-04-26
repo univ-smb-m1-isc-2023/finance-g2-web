@@ -10,6 +10,7 @@ export default class Prevision {
     private _tag: Cagnotte;
     private _account: Compte;
     private _type: string;
+    private _date: string;
 
     constructor(
         id: number = 0,
@@ -61,6 +62,14 @@ export default class Prevision {
 
     public set amount(value: number) {
         this._amount = value;
+    }
+
+    public get date(): string {
+        return this._date;
+    }
+
+    public set date(value: string) {
+        this._date = value;
     }
 
     public get month(): number {
