@@ -137,73 +137,70 @@ export const DashboardPage = () => {
     };
 
     useEffect(() => {
-        if (transactionList.length > 0) {
+        if (forecastList.length > 0) {
+            for (let forecast of forecastList) {
+                if (forecast.month == 1) {
+                    forecast.date = forecast.year - 1 + '-12-31';
+                } else if (forecast.month < 10 && forecast.month == 3 && forecast.year % 4 == 0) {
+                    forecast.date = forecast.year + '-0' + (forecast.month - 1) + '-29';
+                } else if (forecast.month < 10 && forecast.month == 3 && forecast.year % 4 != 0) {
+                    forecast.date = forecast.year + '-0' + (forecast.month - 1) + '-28';
+                } else if (forecast.month < 10 && forecast.month % 2 == 0) {
+                    forecast.date = forecast.year + '-0' + (forecast.month - 1) + '-31';
+                } else if (forecast.month < 10 && forecast.month % 2 != 0) {
+                    forecast.date = forecast.year + '-0' + (forecast.month - 1) + '-30';
+                } else if (forecast.month == 10 || forecast.month == 12) {
+                    forecast.date = forecast.year + '-' + (forecast.month - 1) + '-30';
+                } else {
+                    forecast.date = forecast.year + '-' + (forecast.month - 1) + '-31';
+                }
+            }
+            const sortedForecast = forecastList.sort((a, b) => {
+                return new Date(a.date).getTime() - new Date(b.date).getTime();
+            });
             const sortedTransactions = transactionList.sort((a, b) => {
                 return new Date(a.transactionDate).getTime() - new Date(b.transactionDate).getTime();
             });
-            setLabels(calculateDataLabels(sortedTransactions));
-            setDataValues(calculateDataValues(sortedTransactions));
-        }
-        console.log(forecastList);
-        if (forecastList.length > 0) {
-            const sortedForecast = forecastList.sort((a, b) => {
-                // has month and year
-                if (a.month && a.year) {
-                    return new Date(a.year, a.month).getTime() - new Date(b.year, b.month).getTime();
-                }
-
-                // has only month
-                if (a.month) {
-                    return a.month - b.month;
-                }
-
-                // has only year
-                if (a.year) {
-                    return a.year - b.year;
-                }
-
-                return 0;
-            });
-            console.log(sortedForecast);
-            setLabelsForecast(calculateDataLabelsForecast(sortedForecast));
-            setDataValuesForecast(calculateDataValuesForecast(sortedForecast));
+            setDataValues(calculateDataValues(sortedTransactions, sortedForecast));
+            setLabelsForecast(calculateDataLabelsForecast(sortedTransactions, sortedForecast));
+            setDataValuesForecast(calculateDataValuesForecast(sortedTransactions, sortedForecast));
         }
     }, [transactionList, forecastList]);
 
-    useEffect(() => {
-        console.log(labels);
-        console.log(dataValues);
-    }, [labels, dataValues]);
+    const calculateDataLabelsForecast = (transactions, forecast) => {
+        let transactionsAndForecast = [...transactions, ...forecast];
 
-    const calculateDataLabels = (transactions) => {
+        const sortedTransactions = transactionsAndForecast.sort((a, b) => {
+            return new Date(a.transactionDate ?? a.date).getTime() - new Date(b.transactionDate ?? b.date).getTime();
+        });
         let labels = [];
         let date = '';
-        transactions.forEach((transaction) => {
-            if (date !== getMonthName(transaction.transactionDate)) {
-                labels.push(getMonthName(transaction.transactionDate));
-                date = getMonthName(transaction.transactionDate);
+        sortedTransactions.forEach((transaction) => {
+            if (date !== getMonthName(transaction.transactionDate ?? transaction.date)) {
+                labels.push(getMonthName(transaction.transactionDate ?? transaction.date));
+                date = getMonthName(transaction.transactionDate ?? transaction.date);
             }
         });
         return labels;
     };
 
-    const calculateDataLabelsForecast = (transactions) => {
-        let labels = [];
-        let date = '';
-        console.log('forecast', transactions);
-        transactions.forEach((transaction) => {
-            if (date !== transaction.month) {
-                labels.push(transaction.month);
-                date = transaction.month;
+    const calculateDataValues = (transactions, forecast) => {
+        let transactionsAndForecast = [...transactions, ...forecast];
+
+        const sortedTransactions = transactionsAndForecast.sort((a, b) => {
+            return new Date(a.transactionDate ?? a.date).getTime() - new Date(b.transactionDate ?? b.date).getTime();
+        });
+        let dateList = [];
+        // set dateList with all the dates in sortedTransactions
+        sortedTransactions.forEach((transaction) => {
+            if (!dateList.includes(transaction.transactionDate ?? transaction.date)) {
+                dateList.push(transaction.transactionDate ?? transaction.date);
             }
         });
-        return labels;
-    };
-
-    const calculateDataValues = (transactions) => {
         let values = [];
         let amount = 0;
         let date = '';
+        let indexDate = 0;
         transactions.forEach((transaction) => {
             if (transaction.type === 'depense') {
                 amount -= transaction.amount;
@@ -211,29 +208,44 @@ export const DashboardPage = () => {
                 amount += transaction.amount;
             }
             if (date !== getMonthName(transaction.transactionDate)) {
+                while (dateList[indexDate] !== transaction.transactionDate) {
+                    values.push(amount);
+                    indexDate++;
+                }
                 values.push(amount);
+                indexDate++;
                 date = getMonthName(transaction.transactionDate);
             } else {
                 values.pop();
                 values.push(amount);
             }
         });
+        while (indexDate < dateList.length) {
+            values.push(amount);
+            indexDate++;
+        }
+
         return values;
     };
 
-    const calculateDataValuesForecast = (transactions) => {
+    const calculateDataValuesForecast = (transactions, forecast) => {
+        let transactionsAndForecast = [...transactions, ...forecast];
+
+        const sortedTransactions = transactionsAndForecast.sort((a, b) => {
+            return new Date(a.transactionDate ?? a.date).getTime() - new Date(b.transactionDate ?? b.date).getTime();
+        });
         let values = [];
         let amount = 0;
         let date = '';
-        transactions.forEach((transaction) => {
+        sortedTransactions.forEach((transaction) => {
             if (transaction.type === 'depense') {
                 amount -= transaction.amount;
             } else if (transaction.type === 'provision') {
                 amount += transaction.amount;
             }
-            if (date !== transaction.month) {
+            if (date !== getMonthName(transaction.transactionDate ?? transaction.date)) {
                 values.push(amount);
-                date = transaction.month;
+                date = getMonthName(transaction.transactionDate ?? transaction.date);
             } else {
                 values.pop();
                 values.push(amount);
